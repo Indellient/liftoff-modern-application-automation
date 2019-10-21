@@ -1,0 +1,12 @@
+{
+  "resource_group_name": "liftoff-modern-application-delivery",
+
+  "tag_platform": "CentOS",
+  "location":     "eastus",
+
+  "ssh_username":    "centos",
+  "image_publisher": "OpenLogic",
+  "image_offer":     "CentOS",
+  "image_sku":       "7.6",
+  "image_version":   "latest"
+}
