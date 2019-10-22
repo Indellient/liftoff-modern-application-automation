@@ -13,12 +13,6 @@ variable "storage_account_name" {
   default     = "liftoffmodernapplication"
 }
 
-variable "dns_zone_name" {
-  type        = string
-  description = "The name of the Azure DNS Zone to use."
-  default     = "azure-demos.bluepipeline.io"
-}
-
 variable "image_name" {
   type        = string
   description = "The name of the Azure DNS Zone to use."

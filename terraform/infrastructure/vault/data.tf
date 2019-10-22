@@ -13,7 +13,7 @@ data "azurerm_resource_group" "resource_group" {
 }
 
 data "azurerm_dns_zone" "dns_zone" {
-  name                = var.dns_zone_name
+  name                = data.terraform_remote_state.networking.outputs.dns_zone_name
   resource_group_name = data.azurerm_resource_group.resource_group.name
 }
 

@@ -25,3 +25,8 @@ resource "azurerm_subnet" "public" {
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefix       = "10.10.0.0/24"
 }
+
+resource "azurerm_dns_zone" "dns_zone" {
+  name                = "azure-demos.bluepipeline.io"
+  resource_group_name = data.azurerm_resource_group.resource_group.name
+}
