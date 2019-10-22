@@ -133,7 +133,7 @@ EOF
     use_sudo       = true
 
     service {
-      name = "indellient/consul"
+      name = "liftoff-modern-application-delivery/consul"
     }
   }
 
@@ -162,7 +162,7 @@ resource "null_resource" "null_resource" {
     use_sudo       = true
 
     service {
-      name      = "indellient/vault"
+      name      = "liftoff-modern-application-delivery/vault"
       user_toml = templatefile(format("%s/templates/vault-user.toml.tpl", path.module), { fqdn = local.fqdn })
 
       bind {

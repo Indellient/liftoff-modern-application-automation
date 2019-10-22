@@ -1,5 +1,5 @@
 pkg_name=vault
-pkg_origin=indellient
+pkg_origin=liftoff-modern-application-delivery
 pkg_version=1.1.0
 pkg_description="A tool for managing secrets."
 pkg_license=("MPL-2.0")

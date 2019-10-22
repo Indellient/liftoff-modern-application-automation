@@ -1,5 +1,5 @@
 pkg_name=consul
-pkg_origin=indellient
+pkg_origin=liftoff-modern-application-delivery
 pkg_version=1.4.3
 pkg_description="Consul is a tool for service discovery, monitoring and configuration."
 pkg_license=("MPL-2.0")
