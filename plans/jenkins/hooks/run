@@ -1,0 +1,35 @@
+#!/bin/sh
+
+exec 2>&1
+
+export JAVA_HOME="{{pkgPathFor "core/jre8"}}"
+export JENKINS_HOME="{{pkg.svc_data_path}}"
+
+# Bootstrap Groovy script(s) for Jenkins to run on start
+mkdir -p {{pkg.svc_data_path}}/init.groovy.d
+cp {{pkg.svc_config_path}}/*.groovy {{pkg.svc_data_path}}/init.groovy.d
+
+{{#if cfg.jenkins.https.enabled}}
+export SSL_CERT_FILE={{cfg.jenkins.https.cert}}
+{{/if}}
+
+# Start Jenkins
+exec java \
+  {{cfg.java.opts}} \
+  -jar "{{pkg.path}}/jenkins.war" \
+  --prefix={{cfg.jenkins.prefix}} \
+  {{~#if cfg.jenkins.http.enabled}}
+  --httpPort={{cfg.jenkins.http.port}} \
+  --httpListenAddress=0.0.0.0 \
+  {{~/if}}
+  {{~#if cfg.jenkins.https.enabled}}
+  --httpsPort={{cfg.jenkins.https.port}} \
+  --httpsListenAddress="0.0.0.0" \
+  --httpsKeyStore={{cfg.jenkins.https.key-store}} \
+  --httpsKeyStorePassword={{cfg.jenkins.https.key-store-password}} \
+  {{~/if}}
+  --ajp13Port=-1 \
+  --sessionTimeout={{cfg.jenkins.session.timeout}}
+
+
+# JAVA_HOME=$(hab pkg path core/jre8) JENKINS_HOME=/hab/svc/jenkins/data SSL_CERT_FILE=/src/results/vault.crt $(hab pkg path core/jre8)/bin/java -jar $(hab pkg path $pkg_origin/jenkins)/jenkins.war --httpsPort=443 --httpPort=80 --httpListenAddress=0.0.0.0 --httpsListenAddress=0.0.0.0 --httpsKeyStore=/src/results/cacerts.jks --httpsKeyStorePassword=test123
