@@ -44,6 +44,12 @@ variable "admin_username" {
 ////////////////////////////
 ///// Tags
 
+variable "application_name" {
+  type        = string
+  description = "Name of application used in naming resources."
+  default     = "automate"
+}
+
 variable "tag_environment" {
   type        = string
   description = "Environment Tag"

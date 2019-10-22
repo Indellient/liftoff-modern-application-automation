@@ -17,7 +17,7 @@ resource "random_password" "password" {
 }
 
 resource "azurerm_public_ip" "public_ip" {
-  name                = "jenkins-public-ip"
+  name                = format("%s-public-ip", var.application_name)
   location            = data.azurerm_resource_group.resource_group.location
   resource_group_name = data.azurerm_resource_group.resource_group.name
   allocation_method   = "Static"
@@ -29,12 +29,12 @@ resource "azurerm_public_ip" "public_ip" {
 }
 
 resource "azurerm_network_interface" "network_interface" {
-  name                = "jenkins-network-interface"
+  name                = format("%s-network-interface", var.application_name)
   location            = data.azurerm_resource_group.resource_group.location
   resource_group_name = data.azurerm_resource_group.resource_group.name
 
   ip_configuration {
-    name                          = "jenkins-public-ip-configuration"
+    name                          = format("%s-public-ip-configuration", var.application_name)
     subnet_id                     = data.terraform_remote_state.networking.outputs.public_subnet_id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.public_ip.id
@@ -47,7 +47,7 @@ resource "azurerm_network_interface" "network_interface" {
 }
 
 resource "azurerm_dns_a_record" "dns_a_record" {
-  name                = "jenkins"
+  name                = var.application_name
   zone_name           = data.azurerm_dns_zone.dns_zone.name
   resource_group_name = data.azurerm_resource_group.resource_group.name
   ttl                 = 300
@@ -71,7 +71,7 @@ resource "azurerm_virtual_machine" "virtual_machine" {
     private_key = trimspace(tls_private_key.private_key.private_key_pem)
   }
 
-  name                  = "jenkins"
+  name                  = var.application_name
   resource_group_name   = data.azurerm_resource_group.resource_group.name
   location              = data.azurerm_resource_group.resource_group.location
   network_interface_ids = [azurerm_network_interface.network_interface.id]
@@ -90,14 +90,14 @@ resource "azurerm_virtual_machine" "virtual_machine" {
   }
 
   storage_os_disk {
-    name              = "jenkins-os-disk"
+    name              = format("%s-os-disk", var.application_name)
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
   }
 
   os_profile {
-    computer_name  = "jenkins"
+    computer_name  = var.application_name
     admin_username = var.admin_username
   }
 
