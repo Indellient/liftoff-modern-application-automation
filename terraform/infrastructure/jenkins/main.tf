@@ -80,7 +80,7 @@ resource "azurerm_virtual_machine" "virtual_machine" {
   resource_group_name   = data.azurerm_resource_group.resource_group.name
   location              = data.azurerm_resource_group.resource_group.location
   network_interface_ids = [azurerm_network_interface.network_interface.id]
-  vm_size               = "Standard_B2s"
+  vm_size               = "Standard_A2_v2"
 
   delete_os_disk_on_termination    = true
   delete_data_disks_on_termination = true
