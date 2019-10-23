@@ -37,9 +37,9 @@ variable "application_name" {
   default     = "vault"
 }
 
-variable "tag_environment" {
+variable "tag_project" {
   type        = string
-  description = "Environment Tag"
+  description = "Project Tag"
   default     = "sales-event-demo"
 }
 

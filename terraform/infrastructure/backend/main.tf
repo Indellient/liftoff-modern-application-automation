@@ -3,8 +3,8 @@ resource "azurerm_resource_group" "resource_group" {
   location = var.resource_group_location
 
   tags = {
-    environment = var.tag_environment
-    contact     = var.tag_contact
+    X-Project = var.tag_project
+    X-Contact = var.tag_contact
   }
 }
 
@@ -17,8 +17,8 @@ resource "azurerm_storage_account" "storage_account" {
   account_replication_type = "LRS"
 
   tags = {
-    environment = var.tag_environment
-    contact     = var.tag_contact
+    X-Project = var.tag_project
+    X-Contact = var.tag_contact
   }
 }
 

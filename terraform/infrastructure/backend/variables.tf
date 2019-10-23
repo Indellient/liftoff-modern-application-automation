@@ -3,9 +3,12 @@ variable "resource_group_location" {
   description = "The Location for the Azure Resource Group where resources will exist."
 }
 
-variable "tag_environment" {
+////////////////////////////
+///// Tags
+
+variable "tag_project" {
   type        = string
-  description = "Environment Tag"
+  description = "Project Tag"
   default     = "sales-event-demo"
 }
 

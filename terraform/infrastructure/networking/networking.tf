@@ -17,6 +17,11 @@ resource "azurerm_virtual_network" "main" {
   address_space       = ["10.10.0.0/16"]
   location            = data.azurerm_resource_group.resource_group.location
   resource_group_name = data.azurerm_resource_group.resource_group.name
+
+  tags = {
+    X-Project = var.tag_project
+    X-Contact = var.tag_contact
+  }
 }
 
 resource "azurerm_subnet" "public" {
@@ -29,4 +34,9 @@ resource "azurerm_subnet" "public" {
 resource "azurerm_dns_zone" "dns_zone" {
   name                = "azure-demos.bluepipeline.io"
   resource_group_name = data.azurerm_resource_group.resource_group.name
+
+  tags = {
+    X-Project = var.tag_project
+    X-Contact = var.tag_contact
+  }
 }

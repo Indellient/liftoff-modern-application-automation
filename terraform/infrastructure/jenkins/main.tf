@@ -23,8 +23,8 @@ resource "azurerm_public_ip" "public_ip" {
   allocation_method   = "Static"
 
   tags = {
-    X-Environment = var.tag_environment
-    X-Contact     = var.tag_contact
+    X-Project = var.tag_project
+    X-Contact = var.tag_contact
   }
 }
 
@@ -41,8 +41,8 @@ resource "azurerm_network_interface" "network_interface" {
   }
 
   tags = {
-    X-Environment = var.tag_environment
-    X-Contact     = var.tag_contact
+    X-Project = var.tag_project
+    X-Contact = var.tag_contact
   }
 }
 
@@ -54,8 +54,8 @@ resource "azurerm_dns_a_record" "dns_a_record" {
   records             = [azurerm_public_ip.public_ip.ip_address]
 
   tags = {
-    X-Environment = var.tag_environment
-    X-Contact     = var.tag_contact
+    X-Project = var.tag_project
+    X-Contact = var.tag_contact
   }
 }
 
@@ -161,7 +161,7 @@ EOF
   }
 
   tags = {
-    X-Environment = var.tag_environment
-    X-Contact     = var.tag_contact
+    X-Project = var.tag_project
+    X-Contact = var.tag_contact
   }
 }
