@@ -1,0 +1,42 @@
+pipeline {
+
+    agent any
+
+    environment {
+        ARM_CLIENT_ID       = credentials('arm-client-id')
+        ARM_CLIENT_SECRET   = credentials('arm-client-secret')
+        ARM_TENANT_ID       = credentials('arm-tenant-id')
+        ARM_SUBSCRIPTION_ID = credentials('arm-subscription-id')
+    }
+
+    stages {
+        stage('Terraform Initialization') {
+            steps {
+                dir("terraform/example-1") {
+                    sh "terraform init"
+                }
+            }
+        }
+        stage('Terraform Validation') {
+            steps {
+                dir("terraform/example-1") {
+                    sh "terraform validate"
+                }
+            }
+        }
+        stage('Terraform Apply') {
+            steps {
+                dir("terraform/example-1") {
+                    sh "terraform apply -auto-approve"
+                }
+            }
+        }
+        stage('Terraform Output') {
+            steps {
+                dir("terraform/example-1") {
+                    sh "terraform output"
+                }
+            }
+        }
+    }
+}
