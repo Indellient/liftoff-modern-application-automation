@@ -18,7 +18,7 @@ resource "random_password" "key_store_password" {
 
 resource "random_password" "admin_password" {
   length  = 16
-  special = true
+  special = false
 }
 
 resource "azurerm_public_ip" "public_ip" {
