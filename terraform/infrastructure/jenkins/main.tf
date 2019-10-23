@@ -11,7 +11,12 @@ resource "tls_private_key" "private_key" {
   algorithm = "RSA"
 }
 
-resource "random_password" "password" {
+resource "random_password" "key_store_password" {
+  length  = 16
+  special = true
+}
+
+resource "random_password" "admin_password" {
   length  = 16
   special = true
 }
@@ -131,15 +136,15 @@ sudo ./certbot-auto certonly \
 
 password=$(openssl rand -base64 14)
 sudo cat /etc/letsencrypt/live/${local.fqdn}/privkey.pem /etc/letsencrypt/live/${local.fqdn}/fullchain.pem \
-  | sudo openssl pkcs12 -export -password pass:${random_password.password.result} -out /etc/letsencrypt/live/${local.fqdn}/cert.pkcs12
+  | sudo openssl pkcs12 -export -password pass:${random_password.key_store_password.result} -out /etc/letsencrypt/live/${local.fqdn}/cert.pkcs12
 
 sudo -E hab pkg install -b core/jre8
 sudo keytool -importkeystore \
   -srckeystore /etc/letsencrypt/live/${local.fqdn}/cert.pkcs12 \
   -srcstoretype pkcs12 \
   -destkeystore /etc/letsencrypt/live/${local.fqdn}/cert.jks \
-  -srcstorepass ${random_password.password.result} \
-  -deststorepass ${random_password.password.result}
+  -srcstorepass ${random_password.key_store_password.result} \
+  -deststorepass ${random_password.key_store_password.result}
 
 popd
 EOF
@@ -153,8 +158,9 @@ EOF
     service {
       name      = "liftoff-modern-application-delivery/jenkins"
       user_toml = templatefile(format("%s/templates/jenkins-user.toml.tpl", path.module), {
-        fqdn     = local.fqdn
-        password = random_password.password.result
+        fqdn               = local.fqdn
+        admin-password     = random_password.admin_password.result
+        key-store-password = random_password.key_store_password.result
       })
 
     }

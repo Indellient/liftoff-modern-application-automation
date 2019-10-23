@@ -5,3 +5,7 @@ output "fqdn" {
 output "private-key" {
   value = tls_private_key.private_key.private_key_pem
 }
+
+output "admin-password" {
+  value = random_password.admin_password.result
+}
