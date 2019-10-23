@@ -8,5 +8,8 @@
   "image_publisher": "OpenLogic",
   "image_offer":     "CentOS",
   "image_sku":       "7.6",
-  "image_version":   "latest"
+  "image_version":   "latest",
+
+  "HAB_VERSION": "",
+  "HAB_PACKAGE": "liftoff-modern-application-delivery/linux-base-applications"
 }

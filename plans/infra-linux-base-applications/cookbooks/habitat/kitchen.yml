@@ -1,0 +1,82 @@
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  deprecations_as_errors: true
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: amazonlinux
+    driver_config:
+      box: mvbcoding/awslinux
+  - name: centos-6
+  - name: centos-7
+  - name: debian-8
+  - name: debian-9
+  - name: fedora-28
+  #- name: opensuse-leap-42
+  - name: ubuntu-14.04
+  - name: ubuntu-16.04
+  - name: windows-2016
+    driver:
+      box: chef/windows-server-2016-standard # private box
+
+suites:
+  - name: package
+    run_list: test::package
+    excludes:
+      - windows-2016
+  - name: service
+    run_list: test::service
+    excludes:
+      - windows-2016
+  - name: sup
+    run_list: test::sup
+    excludes:
+      - windows-2016
+  - name: config
+    run_list: test::config
+    excludes:
+      - windows-2016
+  - name: user-toml
+    run_list: test::user_toml
+    excludes:
+      - windows-2016
+  - name: license
+    run_list: test::license
+    excludes:
+      - windows-2016
+  - name: config-chef-13
+    run_list: test::config
+    excludes:
+      - windows-2016
+    provisioner:
+      product_name: chef
+      product_version: 13.6.4
+  - name: win-package
+    run_list: test::win_package
+    includes:
+      - windows-2016
+  - name: win-service
+    run_list: test::win_service
+    includes:
+      - windows-2016
+  - name: win-sup
+    run_list: test::win_sup
+    includes:
+      - windows-2016
+  - name: win-config
+    run_list: test::win_config
+    includes:
+      - windows-2016
+  - name: win-user-toml
+    run_list: test::win_user_toml
+    includes:
+      - windows-2016
+  - name: win-license
+    run_list: test::win_license
+    includes:
+      - windows-2016
