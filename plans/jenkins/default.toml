@@ -37,7 +37,7 @@ plugins = [
   "habitat"
 ]
 
-[[credentials]]
-  id          = "hab-depot-token"
-  token       = "token"
-  description = "Habitat Depot Authentication Token"
+#[[credentials]]
+#id          = "hab-depot-token"
+#token       = "token"
+#description = "Habitat Depot Authentication Token"

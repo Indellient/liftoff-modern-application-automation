@@ -154,9 +154,16 @@ EOF
     service {
       name      = "liftoff-modern-application-delivery/jenkins"
       user_toml = templatefile(format("%s/templates/jenkins-user.toml.tpl", path.module), {
-        fqdn               = local.fqdn
-        admin-password     = random_password.admin_password.result
-        key-store-password = random_password.key_store_password.result
+        fqdn                = local.fqdn
+        admin-password      = random_password.admin_password.result
+        key-store-password  = random_password.key_store_password.result
+        hab-auth-token      = var.habitat_auth_token
+        arm-client-id       = var.arm_client_id
+        arm-client-secret   = var.arm_client_secret
+        arm-tenant-id       = var.arm_tenant_id
+        arm-subscription-id = var.arm_subscription_id
+        github-user         = var.github_user
+        github-password     = var.github_password
       })
 
     }

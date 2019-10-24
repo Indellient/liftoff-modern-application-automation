@@ -29,6 +29,44 @@ variable "admin_username" {
 }
 
 ////////////////////////////
+///// Jenkins Credentials
+
+variable "habitat_auth_token" {
+  type        = string
+  description = "Habitat Builder Authentication Token used to provision Jenkins Credentials"
+}
+
+variable "arm_client_id" {
+  type        = string
+  description = "Azure Client ID used to provision Jenkins Credentials"
+}
+
+variable "arm_client_secret" {
+  type        = string
+  description = "Azure Client Secret used to provision Jenkins Credentials"
+}
+
+variable "arm_tenant_id" {
+  type        = string
+  description = "Azure Tenant ID used to provision Jenkins Credentials"
+}
+
+variable "arm_subscription_id" {
+  type        = string
+  description = "Azure Subscription ID used to provision Jenkins Credentials"
+}
+
+variable "github_user" {
+  type        = string
+  description = "Github Username/email used to provision Jenkins Credentials"
+}
+
+variable "github_password" {
+  type        = string
+  description = "Github Password/Token used to provision Jenkins Credentials"
+}
+
+////////////////////////////
 ///// Certbot
 
 variable "certbot_email" {
