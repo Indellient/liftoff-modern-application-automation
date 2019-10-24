@@ -3,22 +3,12 @@ terraform {
     resource_group_name  = "liftoff-modern-application-delivery"
     storage_account_name = "liftoffmodernapplication"
     container_name       = "tfstate"
-    key                  = "jenkins.tfstate"
+    key                  = "grafana-with-vault-integration.tfstate"
   }
 }
 
 resource "tls_private_key" "private_key" {
   algorithm = "RSA"
-}
-
-resource "random_password" "key_store_password" {
-  length  = 16
-  special = true
-}
-
-resource "random_password" "admin_password" {
-  length  = 16
-  special = false
 }
 
 resource "azurerm_public_ip" "public_ip" {
@@ -28,8 +18,8 @@ resource "azurerm_public_ip" "public_ip" {
   allocation_method   = "Static"
 
   tags = {
-    X-Project = var.tag_project
-    X-Contact = var.tag_contact
+    X-Environment = var.tag_environment
+    X-Contact     = var.tag_contact
   }
 }
 
@@ -46,8 +36,8 @@ resource "azurerm_network_interface" "network_interface" {
   }
 
   tags = {
-    X-Project = var.tag_project
-    X-Contact = var.tag_contact
+    X-Environment = var.tag_environment
+    X-Contact     = var.tag_contact
   }
 }
 
@@ -59,8 +49,8 @@ resource "azurerm_dns_a_record" "dns_a_record" {
   records             = [azurerm_public_ip.public_ip.ip_address]
 
   tags = {
-    X-Project = var.tag_project
-    X-Contact = var.tag_contact
+    X-Environment = var.tag_environment
+    X-Contact     = var.tag_contact
   }
 }
 
@@ -128,21 +118,6 @@ sudo ./certbot-auto certonly \
     --non-interactive \
     --domain ${local.fqdn} \
     -m ${var.certbot_email}
-
-password=$(openssl rand -base64 14)
-sudo cat /etc/letsencrypt/live/${local.fqdn}/privkey.pem /etc/letsencrypt/live/${local.fqdn}/fullchain.pem \
-  | sudo openssl pkcs12 -export -password pass:${random_password.key_store_password.result} -out /etc/letsencrypt/live/${local.fqdn}/cert.pkcs12
-
-sudo -E hab pkg install -b core/jre8
-sudo keytool -importkeystore \
-  -srckeystore /etc/letsencrypt/live/${local.fqdn}/cert.pkcs12 \
-  -srcstoretype pkcs12 \
-  -destkeystore /etc/letsencrypt/live/${local.fqdn}/cert.jks \
-  -srcstorepass ${random_password.key_store_password.result} \
-  -deststorepass ${random_password.key_store_password.result}
-
-# Using custom terraform to update to 12.12, usually "core/terraform" is enough
-sudo hab pkg install -b liftoff-modern-application-delivery/terraform
 EOF
     ]
   }
@@ -152,26 +127,16 @@ EOF
     use_sudo       = true
 
     service {
-      name      = "liftoff-modern-application-delivery/jenkins"
-      user_toml = templatefile(format("%s/templates/jenkins-user.toml.tpl", path.module), {
-        fqdn                = local.fqdn
-        admin-password      = random_password.admin_password.result
-        key-store-password  = random_password.key_store_password.result
-        hab-auth-token      = var.habitat_auth_token
-        arm-client-id       = var.arm_client_id
-        arm-client-secret   = var.arm_client_secret
-        arm-tenant-id       = var.arm_tenant_id
-        arm-subscription-id = var.arm_subscription_id
-        github-user         = var.github_user
-        github-password     = var.github_password
-        vault-token         = var.vault_token
+      name      = format("%s/%s", var.habitat_origin, var.habitat_package)
+      user_toml = templatefile(format("%s/templates/grafana-user.toml.tpl", path.module), {
+        fqdn     = local.fqdn
+        password = data.vault_generic_secret.grafana.data["password"]
       })
-
     }
   }
 
   tags = {
-    X-Project = var.tag_project
-    X-Contact = var.tag_contact
+    X-Environment = var.tag_environment
+    X-Contact     = var.tag_contact
   }
 }
