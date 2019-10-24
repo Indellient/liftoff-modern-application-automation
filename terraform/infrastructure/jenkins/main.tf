@@ -141,6 +141,8 @@ sudo keytool -importkeystore \
   -srcstorepass ${random_password.key_store_password.result} \
   -deststorepass ${random_password.key_store_password.result}
 
+# Using custom terraform to update to 12.12, usually "core/terraform" is enough
+sudo hab pkg install -b liftoff-modern-application-delivery/terraform
 EOF
     ]
   }
