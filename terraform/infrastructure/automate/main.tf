@@ -137,7 +137,7 @@ cert = """$${fullchain}"""
 key = """$${privateKey}"""
 
 [license_control.v1.svc]
-license = "${data.vault_generic_secret.automate_license.data["license"]}"
+license = "${var.automate_license}"
 TOML
 
 curl https://packages.chef.io/files/current/latest/chef-automate-cli/chef-automate_linux_amd64.zip | gunzip - > chef-automate

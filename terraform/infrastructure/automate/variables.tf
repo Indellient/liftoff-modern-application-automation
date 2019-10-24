@@ -20,25 +20,21 @@ variable "image_name" {
 }
 
 ////////////////////////////
-///// Vault
-
-variable "vault_address" {
-  type        = "string"
-  description = "The address of the vault server containing approles and secrets for the deployment. Must include port (e.g. http://vault.example.com:8200)"
-}
-
-variable "vault_token" {
-  type        = "string"
-  description = "The root token for the vault server used to configure the vault provider."
-}
-
-////////////////////////////
 ///// Centos
 
 variable "admin_username" {
   type        = string
   description = "The name of the admin username on each VM."
   default     = "centos"
+}
+
+////////////////////////////
+///// Automate
+
+variable "automate_license" {
+  type        = "string"
+  description = "The Automate license to apply"
+  default     = ""
 }
 
 ////////////////////////////
