@@ -1,0 +1,43 @@
+pipeline {
+
+    agent any
+
+    environment {
+        HAB_AUTH_TOKEN = credentials('habitat-depot-token')
+        HAB_CHANNEL    = 'stable'
+    }
+
+    stages {
+        stage('Download Keys') {
+            steps {
+                sh "hab origin key download ${env.HAB_ORIGIN}"
+                sh "hab origin key download ${env.HAB_ORIGIN} --secret"
+            }
+        }
+        stage('Build') {
+            steps {
+                habitat task: 'build',
+                        directory: 'plans/grafana',
+                        origin: env.HAB_ORIGIN,
+                        bldrUrl: env.HAB_BLDR_URL
+            }
+        }
+        stage('Upload') {
+            steps {
+                habitat task: 'upload',
+                        lastBuildFile: "${workspace}/results/last_build.env",
+                        authToken: env.HAB_AUTH_TOKEN,
+                        bldrUrl: env.HAB_BLDR_URL
+            }
+        }
+        stage('Promote') {
+            steps {
+                habitat task: 'promote',
+                        channel: env.HAB_CHANNEL,
+                        lastBuildFile: "${workspace}/results/last_build.env",
+                        authToken: env.HAB_AUTH_TOKEN,
+                        bldrUrl: env.HAB_BLDR_URL
+            }
+        }
+    }
+}
