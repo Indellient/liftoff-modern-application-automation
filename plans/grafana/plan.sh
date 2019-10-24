@@ -1,5 +1,5 @@
 pkg_name=grafana
-pkg_origin=bluepipeline
+pkg_origin=liftoff-modern-application-delivery
 pkg_version="6.4.3"
 pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
 pkg_license=("Apache-2.0")
