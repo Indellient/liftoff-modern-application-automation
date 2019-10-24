@@ -33,12 +33,6 @@ token       = "${arm-subscription-id}"
 description = "Azure Subscription ID"
 
 [[credentials]]
-id          = "github-credentials"
-user        = "${github-user}"
-password    = "${github-password}"
-description = "Github Credentials"
-
-[[credentials]]
 id          = "vault-token"
 token       = "${vault-token}"
 description = "Vault Token"
