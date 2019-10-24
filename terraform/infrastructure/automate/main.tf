@@ -118,7 +118,7 @@ sudo ./certbot-auto certonly \
     --agree-tos \
     --non-interactive \
     --domain ${local.fqdn} \
-    -m ${var.certbot_email}
+    --register-unsafely-without-email
 
 privateKey=$(sudo cat /etc/letsencrypt/live/${local.fqdn}/privkey.pem)
 fullchain=$(sudo cat /etc/letsencrypt/live/${local.fqdn}/fullchain.pem)

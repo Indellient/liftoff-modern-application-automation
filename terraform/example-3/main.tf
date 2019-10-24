@@ -117,7 +117,7 @@ sudo ./certbot-auto certonly \
     --agree-tos \
     --non-interactive \
     --domain ${local.fqdn} \
-    -m ${var.certbot_email}
+    --register-unsafely-without-email
 EOF
     ]
   }

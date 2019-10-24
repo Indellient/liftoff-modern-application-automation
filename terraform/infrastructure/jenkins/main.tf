@@ -127,7 +127,7 @@ sudo ./certbot-auto certonly \
     --agree-tos \
     --non-interactive \
     --domain ${local.fqdn} \
-    -m ${var.certbot_email}
+    --register-unsafely-without-email
 
 password=$(openssl rand -base64 14)
 sudo cat /etc/letsencrypt/live/${local.fqdn}/privkey.pem /etc/letsencrypt/live/${local.fqdn}/fullchain.pem \
