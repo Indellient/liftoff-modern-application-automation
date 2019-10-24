@@ -56,7 +56,7 @@ variable "certbot_email" {
 variable "application_name" {
   type        = string
   description = "Name of application used in naming resources."
-  default     = "server-with-base-applications"
+  default     = "grafana"
 }
 
 variable "tag_environment" {
