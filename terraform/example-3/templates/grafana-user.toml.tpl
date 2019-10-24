@@ -6,6 +6,7 @@ protocol = "https"
 cert_file = "/etc/letsencrypt/live/${fqdn}/fullchain.pem"
 cert_key  = "/etc/letsencrypt/live/${fqdn}/privkey.pem"
 
-# Default credentials for Grafana UI
-admin_user     = "admin"
-admin_password = "${password}"
+[vault]
+address   = "${vault-address}"
+role-id   = "${vault-role-id}"
+secret-id = "${vault-secret-id}"

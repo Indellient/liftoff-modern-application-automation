@@ -33,6 +33,12 @@ variable "vault_token" {
   description = "The root token for the vault server used to configure the vault provider."
 }
 
+variable "vault_role" {
+  type        = "string"
+  description = "The role for the application. Used to create a Secret ID to Provision application with."
+  default     = "grafana"
+}
+
 ////////////////////////////
 ///// Centos
 

@@ -129,8 +129,10 @@ EOF
     service {
       name      = format("%s/%s", var.habitat_origin, var.habitat_package)
       user_toml = templatefile(format("%s/templates/grafana-user.toml.tpl", path.module), {
-        fqdn     = local.fqdn
-        password = data.vault_generic_secret.grafana.data["password"]
+        fqdn            = local.fqdn
+        vault-address   = data.terraform_remote_state.vault.outputs.fqdn
+        vault-role-id   = data.vault_approle_auth_backend_role_id.approle_auth_backend_role_id.role_id
+        vault-secret-id = vault_approle_auth_backend_role_secret_id.approle_auth_backend_role_secret_id.secret_id
       })
     }
   }
