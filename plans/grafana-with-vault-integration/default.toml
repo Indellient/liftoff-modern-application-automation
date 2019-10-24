@@ -1,0 +1,18 @@
+# The port + protocol that the Grafana UI listens on
+http_port = 8000
+protocol  = "http"
+cert_file = "" # path to cert file
+cert_key  = "" # path to key
+
+# Default credentials for Grafana UI
+admin_user     = "admin"
+admin_password = "password"
+
+[vault]
+address   = "https://vault-test.azure-demos.bluepipeline.io"
+role-id   = ""
+secret-id = ""
+
+[vault.secret]
+path      = "secret/grafana"
+field     = "password"
