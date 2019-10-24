@@ -22,17 +22,6 @@ variable "image_name" {
 ////////////////////////////
 ///// Vault
 
-variable "vault_address" {
-  type        = "string"
-  description = "The address of the vault server containing approles and secrets for the deployment. Must include port (e.g. http://vault.example.com:8200)"
-  default     = "https://vault-test.azure-demos.bluepipeline.io"
-}
-
-variable "vault_token" {
-  type        = "string"
-  description = "The root token for the vault server used to configure the vault provider."
-}
-
 variable "vault_role" {
   type        = "string"
   description = "The role for the application. Used to create a Secret ID to Provision application with."
