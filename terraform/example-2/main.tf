@@ -129,7 +129,7 @@ EOF
 
     service {
       name      = format("%s/%s", var.habitat_origin, var.habitat_package)
-      user_toml = templatefile(format("%s/templates/vault-user.toml.tpl", path.module), {
+      user_toml = templatefile(format("%s/templates/grafana-user.toml.tpl", path.module), {
         fqdn     = local.fqdn
         password = "testpassword"
       })
