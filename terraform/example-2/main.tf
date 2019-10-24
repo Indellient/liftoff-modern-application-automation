@@ -118,7 +118,6 @@ sudo ./certbot-auto certonly \
     --non-interactive \
     --domain ${local.fqdn} \
     -m ${var.certbot_email}
-popd
 EOF
     ]
   }
