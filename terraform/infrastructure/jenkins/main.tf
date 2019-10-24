@@ -118,21 +118,16 @@ resource "azurerm_virtual_machine" "virtual_machine" {
     inline = [<<EOF
 export HAB_LICENSE=accept-no-persist
 
-tempDir=$(mktemp -d)
-echo "Using $${tempDir}"
-pushd $${tempDir}
-
 sudo wget https://dl.eff.org/certbot-auto
 sudo chmod a+x ./certbot-auto
 sudo ./certbot-auto plugins --non-interactive
 
-# Deploy jenkins
 sudo ./certbot-auto certonly \
     --standalone \
     --agree-tos \
     --non-interactive \
     --domain ${local.fqdn} \
-    -m siraj.rauff@indellient.com
+    -m ${var.certbot_email}
 
 password=$(openssl rand -base64 14)
 sudo cat /etc/letsencrypt/live/${local.fqdn}/privkey.pem /etc/letsencrypt/live/${local.fqdn}/fullchain.pem \
@@ -146,7 +141,6 @@ sudo keytool -importkeystore \
   -srcstorepass ${random_password.key_store_password.result} \
   -deststorepass ${random_password.key_store_password.result}
 
-popd
 EOF
     ]
   }

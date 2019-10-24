@@ -38,6 +38,14 @@ variable "automate_license" {
 }
 
 ////////////////////////////
+///// Certbot
+
+variable "certbot_email" {
+  type        = string
+  description = "Email address for certbot certificate"
+}
+
+////////////////////////////
 ///// Tags
 
 variable "application_name" {

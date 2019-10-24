@@ -108,22 +108,16 @@ resource "azurerm_virtual_machine" "virtual_machine" {
     inline = [<<EOF
 export HAB_LICENSE=accept-no-persist
 
-tempDir=$(mktemp -d)
-echo "Using $${tempDir}"
-pushd $${tempDir}
-
 sudo wget https://dl.eff.org/certbot-auto
 sudo chmod a+x ./certbot-auto
 sudo ./certbot-auto plugins --non-interactive
 
-# Deploy vault
 sudo ./certbot-auto certonly \
     --standalone \
     --agree-tos \
     --non-interactive \
     --domain ${local.fqdn} \
-    -m siraj.rauff@indellient.com
-popd
+    -m ${var.certbot_email}
 EOF
     ]
   }

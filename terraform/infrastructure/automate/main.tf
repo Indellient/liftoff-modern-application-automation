@@ -109,21 +109,16 @@ resource "azurerm_virtual_machine" "virtual_machine" {
 sudo sysctl -w vm.max_map_count=262144
 sudo sysctl -w vm.dirty_expire_centisecs=20000
 
-tempDir=$(mktemp -d)
-echo "Using $${tempDir}"
-pushd $${tempDir}
-
 sudo wget https://dl.eff.org/certbot-auto
 sudo chmod a+x ./certbot-auto
 sudo ./certbot-auto plugins --non-interactive
 
-# Deploy automate
 sudo ./certbot-auto certonly \
     --standalone \
     --agree-tos \
     --non-interactive \
     --domain ${local.fqdn} \
-    -m siraj.rauff@indellient.com
+    -m ${var.certbot_email}
 
 privateKey=$(sudo cat /etc/letsencrypt/live/${local.fqdn}/privkey.pem)
 fullchain=$(sudo cat /etc/letsencrypt/live/${local.fqdn}/fullchain.pem)
@@ -144,8 +139,6 @@ curl https://packages.chef.io/files/current/latest/chef-automate-cli/chef-automa
 sudo chmod +x ./chef-automate
 sudo ./chef-automate deploy config.toml --accept-terms-and-mlsa
 sudo mv automate-credentials.toml /root/automate-credentials.toml
-
-popd
 EOF
     ]
   }
