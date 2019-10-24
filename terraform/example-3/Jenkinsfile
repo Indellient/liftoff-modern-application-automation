@@ -28,7 +28,7 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 dir("terraform/example-3") {
-                    sh "terraform apply -var habitat_origin=${env.HAB_ORIGIN} -auto-approve"
+                    sh "terraform apply -auto-approve"
                 }
             }
         }

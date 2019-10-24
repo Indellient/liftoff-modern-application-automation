@@ -49,6 +49,7 @@ variable "habitat_package" {
 variable "habitat_origin" {
   type        = string
   description = "The name of the origin from which to load the package given in habitat_package"
+  default     = "liftoff-modern-application-delivery"
 }
 
 ////////////////////////////
