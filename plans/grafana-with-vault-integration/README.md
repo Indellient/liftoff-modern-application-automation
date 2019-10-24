@@ -23,10 +23,6 @@ To setup Vault integration, we must first setup [AppRole Authentication](https:/
 - Create a Policy for Grafana, allowing it to log in using AppRole Authentication and read the value at the path of the secret we created prior.
   ```bash
   $ vault policy write grafana - <<EOF
-  path "auth/approle/login" {
-    capabilities = [ "create" ]
-  }
-
   path "secret/grafana" {
     capabilities = [ "read" ]
   }
@@ -40,13 +36,7 @@ To setup Vault integration, we must first setup [AppRole Authentication](https:/
   ```
 - Create Role for Grafana:
   ```bash
-  $ vault write auth/approle/role/grafana \
-    secret_id_ttl=25h \
-    token_num_uses=10 \
-    token_ttl=15m \
-    token_max_ttl=1h \
-    policies=grafana \
-    secret_id_num_uses=10
+  $ vault write auth/approle/role/grafana policies=grafana
   Success! Data written to: auth/approle/role/grafana
   ```
 We can now make use of Vault from within Grafana. This can be done by providing a Role ID and Secret ID to the service, think of this as a username/password pair that is used to authenticate with Vault returning a token. This token, working similar to a Session ID or Cookie can now be used to retrieve secrets, though only where the policy allows. In our example above, we attached the `grafana` policy to the `grafana` role we created.
