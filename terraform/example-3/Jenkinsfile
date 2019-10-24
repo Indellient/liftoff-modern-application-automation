@@ -13,28 +13,28 @@ pipeline {
     stages {
         stage('Terraform Initialization') {
             steps {
-                dir("terraform/example-2") {
+                dir("terraform/example-3") {
                     sh "terraform init"
                 }
             }
         }
         stage('Terraform Validation') {
             steps {
-                dir("terraform/example-2") {
+                dir("terraform/example-3") {
                     sh "terraform validate"
                 }
             }
         }
         stage('Terraform Apply') {
             steps {
-                dir("terraform/example-2") {
+                dir("terraform/example-3") {
                     sh "terraform apply -var habitat_origin=${env.HAB_ORIGIN} -auto-approve"
                 }
             }
         }
         stage('Terraform Output') {
             steps {
-                dir("terraform/example-2") {
+                dir("terraform/example-3") {
                     sh "terraform output"
                 }
             }
