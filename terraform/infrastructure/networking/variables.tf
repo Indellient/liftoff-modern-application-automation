@@ -10,6 +10,12 @@ variable "storage_account_name" {
   default     = "liftoffmodernapplication"
 }
 
+variable "dns_zone_name" {
+  type        = string
+  description = "DNS Zone Name to create"
+  default     = "azure-demos.bluepipeline.io"
+}
+
 ////////////////////////////
 ///// Tags
 

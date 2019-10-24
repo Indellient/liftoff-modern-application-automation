@@ -32,7 +32,7 @@ resource "azurerm_subnet" "public" {
 }
 
 resource "azurerm_dns_zone" "dns_zone" {
-  name                = "azure-demos.bluepipeline.io"
+  name                = var.dns_zone_name
   resource_group_name = data.azurerm_resource_group.resource_group.name
 
   tags = {
