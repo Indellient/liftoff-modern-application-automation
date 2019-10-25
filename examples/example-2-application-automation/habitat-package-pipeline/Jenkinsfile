@@ -27,6 +27,9 @@ pipeline {
             }
         }
         stage('Upload') {
+            when {
+                branch 'master'
+            }
             steps {
                 habitat task: 'upload',
                         lastBuildFile: "${workspace}/results/last_build.env",
@@ -35,6 +38,9 @@ pipeline {
             }
         }
         stage('Promote') {
+            when {
+                branch 'master'
+            }
             steps {
                 habitat task: 'promote',
                         channel: env.HAB_CHANNEL,

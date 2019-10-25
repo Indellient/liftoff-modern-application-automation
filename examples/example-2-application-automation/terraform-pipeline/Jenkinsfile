@@ -30,16 +30,12 @@ pipeline {
             }
         }
         stage('Terraform Apply') {
+            when {
+                branch 'master'
+            }
             steps {
                 dir("examples/example-2-application-automation/terraform-pipeline") {
                     sh "terraform apply -auto-approve"
-                }
-            }
-        }
-        stage('Terraform Output') {
-            steps {
-                dir("examples/example-2-application-automation/terraform-pipeline") {
-                    sh "terraform output"
                 }
             }
         }

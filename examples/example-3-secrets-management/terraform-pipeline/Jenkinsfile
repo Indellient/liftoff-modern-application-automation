@@ -37,12 +37,5 @@ pipeline {
                 }
             }
         }
-        stage('Terraform Output') {
-            steps {
-                dir("examples/example-3-secrets-management/terraform-pipeline") {
-                    sh "terraform output"
-                }
-            }
-        }
     }
 }
