@@ -55,6 +55,10 @@ vault write auth/approle/role/grafana policies=grafana
 
 # Create Jenkins Role
 vault policy write jenkins - <<EOF
+path "auth/approle/role/grafana/role-id" {
+  capabilities = [ "read" ]
+}
+
 path "auth/approle/role/grafana/secret-id" {
   capabilities = [ "create", "update" ]
 }
