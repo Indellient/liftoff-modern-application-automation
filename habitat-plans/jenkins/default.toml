@@ -34,7 +34,8 @@ plugins = [
   "groovy",
   "dashboard-view",
   "blueocean",
-  "habitat"
+  "habitat",
+  "job-dsl"
 ]
 
 #[[credentials]]
