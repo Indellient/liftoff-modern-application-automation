@@ -1,2 +1,9 @@
+# Terraform
 *.tfstate*
 terraform.tfvars
+
+# Chef
+Policyfile.lock.json
+
+# Habitat
+results
