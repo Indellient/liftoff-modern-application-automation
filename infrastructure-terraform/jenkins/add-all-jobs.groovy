@@ -9,6 +9,11 @@ def folders = [
                 name:        "Deploy",
                 description: "Deploy Server on Azure",
                 scriptPath:  "terraform-pipeline/Jenkinsfile"
+            ],[
+                id:          "example-1-os-build",
+                name:        "Build Base OS Image",
+                description: "Build Base OS Image",
+                scriptPath:  "packer-pipeline/Jenkinsfile"
             ]
         ]
     ],[
@@ -55,18 +60,6 @@ def folders = [
                 name:        "Build Base OS Applications with Hardening",
                 description: "Build Base OS Applications with Hardening",
                 scriptPath:  "habitat-package-pipeline/Jenkinsfile"
-            ]
-        ]
-    ],[
-        id:          'extra-example-base-os',
-        name:        'Extra Example: Operating System Pipelines',
-        description: 'Folder containing Operating System Pipelines',
-        jobs: [
-            [
-                id:          "extra-example-os-build",
-                name:        "Build Base OS Image",
-                description: "Build Base OS Image",
-                scriptPath:  "packer-pipeline/Jenkinsfile"
             ]
         ]
     ]
