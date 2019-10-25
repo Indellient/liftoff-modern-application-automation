@@ -14,7 +14,7 @@ pkg_description="Grafana graphing app, dynamically finds prometheus data sources
 pkg_svc_user="root"
 pkg_svc_group=$pkg_svc_user
 pkg_exports=(
-  [grafana_port]=listening_port
+  [grafana_port]=http_port
 )
 
 pkg_exposes=(grafana_port)
