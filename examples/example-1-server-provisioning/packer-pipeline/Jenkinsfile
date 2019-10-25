@@ -15,10 +15,17 @@ pipeline {
                 sh "sudo hab pkg install -b core/packer"
             }
         }
+        stage('CentOS Validate') {
+            steps {
+                dir("packer") {
+                    sh "packer validate -var-file centos-variables.json azure-linux-machine-image.json"
+                }
+            }
+        }
         stage('CentOS Build') {
             steps {
                 dir("packer") {
-                    sh "packer build -var-file=centos-variables.json azure-linux-machine-image.json"
+                    sh "packer build -var-file centos-variables.json azure-linux-machine-image.json"
                 }
             }
         }
