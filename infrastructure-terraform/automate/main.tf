@@ -109,6 +109,16 @@ resource "azurerm_virtual_machine" "virtual_machine" {
 sudo sysctl -w vm.max_map_count=262144
 sudo sysctl -w vm.dirty_expire_centisecs=20000
 
+# Automate won't install if Supervisor is running
+if sudo systemctl status hab-supervisor &>/dev/null; then
+  echo "Found SystemD Supervisor started. Stopping..."
+  sudo systemctl stop hab-supervisor
+  until ! HAB_LICENSE=accept-no-persist sudo -E hab svc status &>/dev/null; do
+    echo "Waiting for Supervisor to stop..."
+    sleep 1;
+  done
+fi
+
 sudo wget https://dl.eff.org/certbot-auto
 sudo chmod a+x ./certbot-auto
 sudo ./certbot-auto plugins --non-interactive
