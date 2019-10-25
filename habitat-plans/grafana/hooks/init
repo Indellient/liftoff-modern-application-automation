@@ -1,4 +1,3 @@
 #!/bin/sh
 
-mkdir -p {{pkg.svc_var_path}}/provisioning/dashboards
-mkdir -p {{pkg.svc_var_path}}/provisioning/datasources
+mkdir -p {{pkg.svc_var_path}}/dashboards
