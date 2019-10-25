@@ -11,6 +11,11 @@ pipeline {
     }
 
     stages {
+        stage('Install Terraform') {
+            steps {
+                sh "sudo hab pkg install -b liftoff-modern-application-delivery/terraform"
+            }
+        }
         stage('Terraform Initialization') {
             steps {
                 dir("examples/example-3-secrets-management/terraform-pipeline") {

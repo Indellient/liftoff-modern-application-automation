@@ -10,6 +10,11 @@ pipeline {
     }
 
     stages {
+        stage('Install Packer') {
+            steps {
+                sh "sudo hab pkg install -b core/packer"
+            }
+        }
         stage('CentOS Build') {
             steps {
                 dir("packer") {
