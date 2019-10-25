@@ -17,7 +17,7 @@
       "cache_key": null,
       "scm_info": {
         "scm": "git",
-        "remote": "gh:Indellient/hashicorp-chef-sales-event",
+        "remote": "gh:Indellient/liftoff-modern-application-automation",
         "revision": "116be784b31f16d8a7d613badfc2986df571ff2c",
         "working_tree_clean": false,
         "published": false,
@@ -48,7 +48,7 @@
       "cache_key": null,
       "scm_info": {
         "scm": "git",
-        "remote": "gh:Indellient/hashicorp-chef-sales-event",
+        "remote": "gh:Indellient/liftoff-modern-application-automation",
         "revision": "116be784b31f16d8a7d613badfc2986df571ff2c",
         "working_tree_clean": false,
         "published": false,

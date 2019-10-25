@@ -87,7 +87,7 @@ folders.each { folderObject ->
                     id(jobObject.id)
                     includes("master")
                     repoOwner("Indellient")
-                    repository("hashicorp-chef-sales-event")
+                    repository("liftoff-modern-application-automation")
 
                     buildForkPRHead(false)
                     buildForkPRMerge(false)
