@@ -1,5 +1,3 @@
-# Required variables. Create a terraform.tfvars.
-
 variable "aws_key_pair_name" {
   description = "The name of the key pair to associate with your instances. Required for SSH access."
 }

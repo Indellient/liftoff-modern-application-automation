@@ -1,6 +1,7 @@
 variable "resource_group_location" {
   type        = string
   description = "The Location for the Azure Resource Group where resources will exist."
+  default     = "eastus"
 }
 
 ////////////////////////////
