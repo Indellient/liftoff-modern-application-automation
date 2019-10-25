@@ -1,11 +1,12 @@
 pkg_name=grafana
 pkg_origin=liftoff-modern-application-delivery
-pkg_version="6.4.3"
+pkg_version="4.6.3"
 pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
 pkg_license=("Apache-2.0")
 pkg_upstream_url=https://grafana.com
-pkg_source="https://dl.grafana.com/oss/release/${pkg_name}-${pkg_version}.linux-amd64.tar.gz"
-pkg_shasum="023712b0be774ad8f84ff1355fd8c8b15d237870182c141078a363040ba8293f"
+pkg_source="https://s3-us-west-2.amazonaws.com/${pkg_name}-releases/release/${pkg_name}-${pkg_version}.linux-x64.tar.gz"
+pkg_filename="${pkg_name}-${pkg_version}.linux-x64.tar.gz"
+pkg_shasum="037cf7678858c4a5b3632de7bea4c20475e081ff48c27c868be71e7b0a07c505"
 pkg_bin_dirs=("bin")
 pkg_deps=(core/glibc core/bash core/wget core/curl)
 pkg_build_deps=(core/patchelf)
