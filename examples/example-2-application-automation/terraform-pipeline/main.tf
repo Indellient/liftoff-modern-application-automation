@@ -128,6 +128,7 @@ EOF
 
     service {
       name      = format("%s/%s", var.habitat_origin, var.habitat_package)
+      strategy  = "at-once"
       user_toml = templatefile(format("%s/templates/grafana-user.toml.tpl", path.module), { fqdn = local.fqdn })
     }
   }
