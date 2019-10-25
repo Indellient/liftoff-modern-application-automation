@@ -12,28 +12,28 @@ pipeline {
     stages {
         stage('Terraform Initialization') {
             steps {
-                dir("terraform/example-2") {
+                dir("examples/example-1-server-provisioning/terraform") {
                     sh "terraform init"
                 }
             }
         }
         stage('Terraform Validation') {
             steps {
-                dir("terraform/example-2") {
+                dir("examples/example-1-server-provisioning/terraform") {
                     sh "terraform validate"
                 }
             }
         }
         stage('Terraform Apply') {
             steps {
-                dir("terraform/example-2") {
+                dir("examples/example-1-server-provisioning/terraform") {
                     sh "terraform apply -auto-approve"
                 }
             }
         }
         stage('Terraform Output') {
             steps {
-                dir("terraform/example-2") {
+                dir("examples/example-1-server-provisioning/terraform") {
                     sh "terraform output"
                 }
             }

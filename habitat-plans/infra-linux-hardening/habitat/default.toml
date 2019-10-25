@@ -41,9 +41,9 @@ ssl_verify_mode = ":verify_peer"
 # Default value: :verify_peer.
 
 [automate]
-enable = false
-server_url = "https://<automate_url>/data-collector/v0/"
-token = "<automate_token>"
+enable     = true
+server_url = "https://automate-test.azure-demos.bluepipeline.io/data-collector/v0/"
+token      = "5WUeX-XO0TUsWB6dZ6fygG9lXmw="
 # The connection information for your Chef Automate server
 # Setting enable = false will turn off this feature
 # The server_url is the url to your Chef Automate Server

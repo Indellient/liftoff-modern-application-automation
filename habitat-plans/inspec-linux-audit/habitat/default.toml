@@ -40,7 +40,7 @@ log_level = "info"
 [automate]
 enable      = true
 server_url  = "https://automate-test.azure-demos.bluepipeline.io"
-token       = 'nd1niFXRXQuzQ-OL3pEM55za9xo='
+token       = '5WUeX-XO0TUsWB6dZ6fygG9lXmw='
 user        = 'admin'
 environment = 'development'
 

@@ -21,7 +21,7 @@ pipeline {
         stage('Build') {
             steps {
                 habitat task: 'build',
-                        directory: 'plans/grafana-with-vault-integration',
+                        directory: 'habitat-plans/grafana-with-vault-integration',
                         origin: env.HAB_ORIGIN,
                         bldrUrl: env.HAB_BLDR_URL
             }

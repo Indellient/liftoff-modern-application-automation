@@ -18,7 +18,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "gh:Indellient/hashicorp-chef-sales-event",
-        "revision": "4d96d907f0dd1169f47e65695f1e27556a60ef87",
+        "revision": "116be784b31f16d8a7d613badfc2986df571ff2c",
         "working_tree_clean": false,
         "published": false,
         "synchronized_remote_branches": [
@@ -49,7 +49,7 @@
       "scm_info": {
         "scm": "git",
         "remote": "gh:Indellient/hashicorp-chef-sales-event",
-        "revision": "4d96d907f0dd1169f47e65695f1e27556a60ef87",
+        "revision": "116be784b31f16d8a7d613badfc2986df571ff2c",
         "working_tree_clean": false,
         "published": false,
         "synchronized_remote_branches": [
