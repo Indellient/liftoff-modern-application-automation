@@ -34,6 +34,10 @@ Make use of this to add the following environment variables:
   When **HAB_ORIGIN** is exported, the Habitat build process will override the value of `pkg_origin`, allowing these examples to work without having to modify the `plan.sh`
 - **VAULT_TOKEN**
   This token should have permission to create a Secret ID for the AppRole created for Grafana (see details in Vault Setup) to allow a role-id and secret-id to be correctly provisioned.
+- **PATH**
+  Update the path to begin with `/bin`, this allows us to use bin-linked Habitat packages over System-specific executables and allows us to install dependencies for a pipeline within the pipeline itself, without effecting the rest of the system. **NOTE You cannot simply override $PATH! The correct syntax is to set Variable Name to `PATH+PATH` and value to `/bin`**!
+  
+![Jenkins PATH Environment Variable](doc/jenkins-path-environment-variable.png)
   
 ##### Jobs
 The Jobs must be added to Jenkins, and can be done through the provided [Job DSL](infrastructure-terraform/jenkins/add-all-jobs.groovy). To use this file, create a new Freestyle project, adding a build step "Process Job DSLs" (note this requires the job-dsl plugin, which is included in the Jenkins package in this repository). Select "Use the provided DSL script" within the action, and paste the contents of the script within it. Run the job and the folders and jobs for each fo the examples should be created. 
