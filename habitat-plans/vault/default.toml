@@ -5,10 +5,6 @@ ui          = true
 unseal_keys = []
 token       = ""
 
-[[engines]]
-name = "kv"
-path = "secret/"
-
 [dev]
 mode = false
 

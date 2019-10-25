@@ -9,6 +9,11 @@ if [ "{{cfg.dev.mode}}" = true ]; then
     -dev-listen-address={{cfg.listener.location}}:{{cfg.listener.port}}
 
 else
+  while [ "$(curl {{bind.backend.first.sys.ip}}:{{bind.backend.first.cfg.port-http}}/v1/agent/members | jq 'length' )" == 0 ]; do
+    echo "Waiting for consul..."
+    sleep 5
+  done
+
   # Set variables
   UNSEAL_KEYS=({{#each cfg.unseal_keys as |key| ~}}"{{key}}"{{#unless @last}} {{/unless}}{{/each}})
   export VAULT_ADDR="https://{{cfg.listener.location}}:{{cfg.listener.port}}"
@@ -64,16 +69,6 @@ else
       do
         vault operator unseal -tls-skip-verify "${key}";
       done
-
-      engines=$(vault secrets list -tls-skip-verify --format "json" | jq -r '.[].type')
-      {{#each cfg.engines as |engine| ~}}
-        if [[ ! "${engines[@]}" =~ "{{engine.name}}" ]]; then
-          echo "Enabling secret engine {{engine.name}}"
-          vault secrets enable -tls-skip-verify --path {{engine.path}} {{engine.name}}
-        else
-          echo "Secret engine {{engine.name}} already enabled; skipping..."
-        fi
-      {{/each ~}}
 
       # Block on vault server process
       wait ${PID}
