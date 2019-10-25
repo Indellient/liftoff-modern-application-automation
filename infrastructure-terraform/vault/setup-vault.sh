@@ -1,10 +1,6 @@
 #!/bin/bash
 
 password=${1}
-field=${2:-"password"}
-path=${3:-"secret/grafana"}
-policyname=${3:-"grafana"}
-rolename=${3:-"grafana"}
 
 _enable_secrets_engine(){
   local __ENGINE=${1}
@@ -45,14 +41,24 @@ _enable_secrets_engine "kv" "secret/"
 _enable_auth_method "approle"
 
 # Create Secret
-vault kv put ${path} ${field}=${password}
+vault kv put secret/grafana password=${password}
 
-# Put Policy
-vault policy write ${policyname} - <<EOF
-path "${path}" {
+# Create Grafana Policy
+vault policy write grafana - <<EOF
+path "secret/grafana" {
   capabilities = [ "read" ]
 }
 EOF
 
 # Create Role
-vault write auth/approle/role/${rolename} policies=${policyname}
+vault write auth/approle/role/grafana policies=grafana
+
+# Create Jenkins Role
+vault policy write jenkins - <<EOF
+path "auth/approle/role/grafana/secret-id" {
+  capabilities = [ "create", "update" ]
+}
+EOF
+
+response=$(vault token create -policy jenkins -no-default-policy -format "json")
+echo "Created Jenkins token '$(echo $response | jq -r .auth.client_token)'"
