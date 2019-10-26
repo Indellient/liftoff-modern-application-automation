@@ -112,6 +112,7 @@ resource "azurerm_virtual_machine" "virtual_machine" {
   provisioner "habitat" {
     accept_license = true
     permanent_peer = true
+    listen_ctl     = "0.0.0.0:9632"
     ctl_secret     = random_password.ctl_secret.result
   }
 
