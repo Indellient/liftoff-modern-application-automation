@@ -4,6 +4,7 @@ terraform.tfvars
 
 # Chef
 Policyfile.lock.json
+base.lock.json
 
 # Habitat
 results
