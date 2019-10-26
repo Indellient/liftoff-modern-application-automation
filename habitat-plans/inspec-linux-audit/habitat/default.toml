@@ -38,11 +38,10 @@ log_level = "info"
 #  - user: User for requests to Chef Automate (Default: '<automate_user>')
 #  - environment: An optional environment setting to aid in filtering within Automate
 [automate]
-enable      = true
-server_url  = "https://automate-test.azure-demos.bluepipeline.io"
-token       = '5WUeX-XO0TUsWB6dZ6fygG9lXmw='
-user        = 'admin'
-environment = 'development'
+enable      = false
+server_url  = ""
+token       = ""
+user        = "admin"
 
 #######################################
 # End of optional settings
