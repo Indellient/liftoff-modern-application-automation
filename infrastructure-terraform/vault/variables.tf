@@ -15,7 +15,7 @@ variable "storage_account_name" {
 
 variable "image_name" {
   type        = string
-  description = "The name of the Azure DNS Zone to use."
+  description = "The name of the Azure Machine Image to use."
   default     = "centos-habitat-base-applications"
 }
 
