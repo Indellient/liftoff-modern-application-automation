@@ -11,6 +11,11 @@ resource "tls_private_key" "private_key" {
   algorithm = "RSA"
 }
 
+resource "random_password" "password" {
+  length  = 16
+  special = false
+}
+
 resource "azurerm_public_ip" "public_ip" {
   name                = format("%s-public-ip", var.application_name)
   location            = data.azurerm_resource_group.resource_group.location
@@ -129,7 +134,10 @@ EOF
     service {
       name      = format("%s/%s", var.habitat_origin, var.habitat_package)
       strategy  = "at-once"
-      user_toml = templatefile(format("%s/templates/grafana-user.toml.tpl", path.module), { fqdn = local.fqdn })
+      user_toml = templatefile(format("%s/templates/grafana-user.toml.tpl", path.module), {
+        fqdn     = local.fqdn
+        password = random_password.password.result
+      })
     }
   }
 

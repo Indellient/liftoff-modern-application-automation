@@ -5,3 +5,5 @@ protocol = "https"
 # SSL certificates, if protocol = "https"
 cert_file = "/etc/letsencrypt/live/${fqdn}/fullchain.pem"
 cert_key  = "/etc/letsencrypt/live/${fqdn}/privkey.pem"
+
+admin_password = "${password}"
