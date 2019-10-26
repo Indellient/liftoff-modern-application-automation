@@ -48,8 +48,33 @@ These examples require the following:
 - A password for Grafana be provisioned somewhere in the `secret/` mount.
 - AppRole Authentication enabled
 - A Policy and Role created for Grafana
+- A Token Created for Jenkins that allows creating a Secret ID for the Grafana Role
 
-This can be easily done by making use of the included [setup-vault.sh script](infrastructure-terraform/vault/setup-vault.sh). This script takes as an argument the password, the field name, path, policyname and rolename, though only the password is a required argument with the rest having reasonable defaults. Making use of the defaults allows the examples to be used without modification. Note the script makes use of the default environment variables `VAULT_ADDR` and `VAULT_TOKEN` recognized by Vault to run the Vault commands. 
+This can be easily done by making use of the included [setup-vault.sh script](infrastructure-terraform/vault/setup-vault.sh). This script takes as an argument the password, the field name, path, policyname and rolename, though only the password is a required argument with the rest having reasonable defaults. Making use of the defaults allows the examples to be used without modification. Note the script makes use of the default environment variables `VAULT_ADDR` and `VAULT_TOKEN` recognized by Vault to run the Vault commands.
+
+Note the required policies:
+```hcl
+path "secret/grafana" {
+  capabilities = [ "read" ]
+}
+```
+```hcl
+path "auth/approle/role/grafana/role-id" {
+  capabilities = [ "read" ]
+}
+
+path "auth/approle/role/grafana/secret-id" {
+  capabilities = [ "create", "update" ]
+}
+
+path "auth/approle/role/grafana/secret-id-accessor/*" {
+  capabilities = [ "read" ]
+}
+
+path "auth/token/create" {
+  capabilities = [ "read", "create", "update", "delete" ]
+}
+``` 
 
 #### Automate Setup
 The examples require that you create a token (Settings > API Tokens) that you may put in `default.toml` for the effortless applications, at a minimum

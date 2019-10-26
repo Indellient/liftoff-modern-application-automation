@@ -62,7 +62,15 @@ path "auth/approle/role/grafana/role-id" {
 path "auth/approle/role/grafana/secret-id" {
   capabilities = [ "create", "update" ]
 }
+
+path "auth/approle/role/grafana/secret-id-accessor/*" {
+  capabilities = [ "create", "read", "update", "list" ]
+}
+
+path "auth/token/create" {
+  capabilities = [ "read", "create", "update", "delete" ]
+}
 EOF
 
-response=$(vault token create -policy jenkins -no-default-policy -format "json")
+response=$(vault token create -policy jenkins -format "json")
 echo "Created Jenkins token '$(echo $response | jq -r .auth.client_token)'"
