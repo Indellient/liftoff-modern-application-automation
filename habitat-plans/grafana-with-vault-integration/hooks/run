@@ -3,29 +3,29 @@
 exec 2>&1
 
 {{#if cfg.vault.secret-id}}
-export VAULT_ADDR="{{cfg.vault.address}}"
-echo "Detected Secret ID, attempting to get Password from Vault at ${VAULT_ADDR}..."
+    export VAULT_ADDR="{{cfg.vault.address}}"
+    echo "Detected Secret ID, attempting to get Password from Vault at ${VAULT_ADDR}..."
 
-if [ -z "{{cfg.vault.role-id}}" ] || [ -z "{{cfg.vault.address}}" ]
-then
-  echo "Incorrect Vault Configuration!"
-  echo "Secret ID was provided, but one of Role ID ({{cfg.vault.role-id}}) or Address (({{cfg.vault.address}})) were not"
+    if [ -z "{{cfg.vault.role-id}}" ] || [ -z "{{cfg.vault.address}}" ]
+    then
+      echo "Incorrect Vault Configuration!"
+      echo "Secret ID was provided, but one of Role ID ({{cfg.vault.role-id}}) or Address (({{cfg.vault.address}})) were not"
 
-  sleep 5
-  exit 1
-fi
+      sleep 5
+      exit 1
+    fi
 
-CREDENTIALS=$(vault write auth/approle/login --format=json \
-  role_id="{{cfg.vault.role-id}}" \
-  secret_id="{{cfg.vault.secret-id}}")
+    CREDENTIALS=$(vault write auth/approle/login --format=json \
+      role_id="{{cfg.vault.role-id}}" \
+      secret_id="{{cfg.vault.secret-id}}")
 
-# VAULT_ADDR & VAULT_TOKEN have been exported, we can now read from vault
-export VAULT_TOKEN=$(echo ${CREDENTIALS} | jq -r .auth.client_token)
+    # VAULT_ADDR & VAULT_TOKEN have been exported, we can now read from vault
+    export VAULT_TOKEN=$(echo ${CREDENTIALS} | jq -r .auth.client_token)
 
-# GF_* will override variables in grafana.ini provided below
-# Grafana Environment Variables: https://grafana.com/docs/installation/configuration/#using-environment-variables
-# [security] admin_password:     https://grafana.com/docs/installation/configuration/#admin-password
-export GF_SECURITY_ADMIN_PASSWORD=$(vault read -field={{cfg.vault.secret.field}} {{cfg.vault.secret.path}})
+    # GF_* will override variables in grafana.ini provided below
+    # Grafana Environment Variables: https://grafana.com/docs/installation/configuration/#using-environment-variables
+    # [security] admin_password:     https://grafana.com/docs/installation/configuration/#admin-password
+    export GF_SECURITY_ADMIN_PASSWORD=$(vault kv get -field={{cfg.vault.secret.field}} {{cfg.vault.secret.path}})
 {{/if}}
 
 #
