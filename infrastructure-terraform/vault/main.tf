@@ -124,7 +124,6 @@ EOF
 
   provisioner "habitat" {
     accept_license = true
-    use_sudo       = true
 
     service {
       name = "liftoff-modern-application-delivery/consul"
@@ -153,7 +152,6 @@ resource "null_resource" "null_resource" {
 
   provisioner "habitat" {
     accept_license = true
-    use_sudo       = true
 
     service {
       name      = "liftoff-modern-application-delivery/vault"

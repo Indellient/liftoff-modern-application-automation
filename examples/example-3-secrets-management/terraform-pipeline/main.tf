@@ -124,7 +124,6 @@ EOF
 
   provisioner "habitat" {
     accept_license = true
-    use_sudo       = true
 
     service {
       name      = format("%s/%s", var.habitat_origin, var.habitat_package)

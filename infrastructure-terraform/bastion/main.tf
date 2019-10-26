@@ -3,7 +3,7 @@ terraform {
     resource_group_name  = "liftoff-modern-application-delivery"
     storage_account_name = "liftoffmodernapplication"
     container_name       = "tfstate"
-    key                  = "grafana.tfstate"
+    key                  = "bastion.tfstate"
   }
 }
 
@@ -11,9 +11,9 @@ resource "tls_private_key" "private_key" {
   algorithm = "RSA"
 }
 
-resource "random_password" "password" {
+resource "random_password" "ctl_secret" {
   length  = 16
-  special = false
+  special = true
 }
 
 resource "azurerm_public_ip" "public_ip" {
@@ -23,8 +23,8 @@ resource "azurerm_public_ip" "public_ip" {
   allocation_method   = "Static"
 
   tags = {
-    X-Environment = var.tag_environment
-    X-Contact     = var.tag_contact
+    X-Project = var.tag_project
+    X-Contact = var.tag_contact
   }
 }
 
@@ -41,8 +41,8 @@ resource "azurerm_network_interface" "network_interface" {
   }
 
   tags = {
-    X-Environment = var.tag_environment
-    X-Contact     = var.tag_contact
+    X-Project = var.tag_project
+    X-Contact = var.tag_contact
   }
 }
 
@@ -54,8 +54,8 @@ resource "azurerm_dns_a_record" "dns_a_record" {
   records             = [azurerm_public_ip.public_ip.ip_address]
 
   tags = {
-    X-Environment = var.tag_environment
-    X-Contact     = var.tag_contact
+    X-Project = var.tag_project
+    X-Contact = var.tag_contact
   }
 }
 
@@ -109,39 +109,14 @@ resource "azurerm_virtual_machine" "virtual_machine" {
     }
   }
 
-  provisioner "remote-exec" {
-    inline = [<<EOF
-export HAB_LICENSE=accept-no-persist
-
-sudo wget https://dl.eff.org/certbot-auto
-sudo chmod a+x ./certbot-auto
-sudo ./certbot-auto plugins --non-interactive
-
-sudo ./certbot-auto certonly \
-    --standalone \
-    --agree-tos \
-    --non-interactive \
-    --domain ${local.fqdn} \
-    --register-unsafely-without-email
-EOF
-    ]
-  }
-
   provisioner "habitat" {
     accept_license = true
-
-    service {
-      name      = format("%s/%s", var.habitat_origin, var.habitat_package)
-      strategy  = "at-once"
-      user_toml = templatefile(format("%s/templates/grafana-user.toml.tpl", path.module), {
-        fqdn     = local.fqdn
-        password = random_password.password.result
-      })
-    }
+    permanent_peer = true
+    ctl_secret     = random_password.ctl_secret.result
   }
 
   tags = {
-    X-Environment = var.tag_environment
-    X-Contact     = var.tag_contact
+    X-Project = var.tag_project
+    X-Contact = var.tag_contact
   }
 }

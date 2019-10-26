@@ -106,7 +106,6 @@ resource "azurerm_virtual_machine" "virtual_machine" {
 
   provisioner "habitat" {
     accept_license = true
-    use_sudo       = true
   }
 
   tags = {

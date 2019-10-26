@@ -146,7 +146,6 @@ EOF
 
   provisioner "habitat" {
     accept_license = true
-    use_sudo       = true
 
     service {
       name      = "liftoff-modern-application-delivery/jenkins"
