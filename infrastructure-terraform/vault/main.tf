@@ -124,6 +124,7 @@ EOF
 
   provisioner "habitat" {
     accept_license = true
+    peers          = [data.terraform_remote_state.bastion.outputs.fqdn]
 
     service {
       name = "liftoff-modern-application-delivery/consul"
