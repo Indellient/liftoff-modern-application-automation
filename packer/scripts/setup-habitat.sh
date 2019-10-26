@@ -44,28 +44,7 @@ _install_hab(){
     fi
 }
 
-_install_habitat_supervisor() {
-    echo "Preparing Habitat Supervisor..."
-    local __SUPERVISOR_SERVICE_NAME=${1:-hab-supervisor}
-
-    sudo bash -c "cat > /etc/systemd/system/${__SUPERVISOR_SERVICE_NAME}.service" <<SERVICE
-Description=Habitat Supervisor
-
-[Service]
-Environment=HAB_LICENSE=accept-no-persist
-ExecStart=/bin/hab sup run
-Restart=on-failure
-
-[Install]
-WantedBy=network.target
-SERVICE
-
-    sudo systemctl daemon-reload
-    sudo systemctl enable ${__SUPERVISOR_SERVICE_NAME}
-}
-
 _install_hab "${HAB_VERSION}"
-_install_habitat_supervisor
 
 # Add hab user if it does not exist
 if ! id hab &>/dev/null; then
