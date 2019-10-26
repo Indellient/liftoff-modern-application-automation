@@ -54,7 +54,7 @@ This can be easily done by making use of the included [setup-vault.sh script](in
 
 Note the required policies:
 ```hcl
-path "secret/grafana" {
+path "secret/data/grafana" {
   capabilities = [ "read" ]
 }
 ```

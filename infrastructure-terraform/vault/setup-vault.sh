@@ -37,7 +37,7 @@ if ! command -v jq &>/dev/null; then
   echo "jq not installed! jq is required for this script"
 fi
 
-_enable_secrets_engine "kv" "secret/"
+_enable_secrets_engine "kv-v2" "secret/"
 _enable_auth_method "approle"
 
 # Create Secret
@@ -45,7 +45,7 @@ vault kv put secret/grafana password=${password}
 
 # Create Grafana Policy
 vault policy write grafana - <<EOF
-path "secret/grafana" {
+path "secret/data/grafana" {
   capabilities = [ "read" ]
 }
 EOF
