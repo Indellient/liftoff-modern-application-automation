@@ -1,4 +1,4 @@
-pkg_name=linux-base-applications
+pkg_name=infra-linux-base-applications
 pkg_origin=liftoff-modern-application-delivery
 pkg_version="0.1.0"
 pkg_maintainer="Chef"

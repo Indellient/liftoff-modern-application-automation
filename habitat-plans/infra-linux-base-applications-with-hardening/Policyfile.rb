@@ -20,6 +20,6 @@ run_list 'base-applications::default'
 default['applications'] = {
     :linux => {
         'liftoff-modern-application-delivery/inspec-linux-audit' => {},
-        'liftoff-modern-application-delivery/linux-hardening' => {}
+        'liftoff-modern-application-delivery/infra-linux-hardening' => {}
     }
 }

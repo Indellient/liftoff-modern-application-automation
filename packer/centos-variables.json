@@ -11,5 +11,5 @@
   "image_version":   "latest",
 
   "HAB_VERSION": "",
-  "HAB_PACKAGE": "liftoff-modern-application-delivery/linux-base-applications"
+  "HAB_PACKAGE": "liftoff-modern-application-delivery/infra-linux-base-applications"
 }

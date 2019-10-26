@@ -1,4 +1,4 @@
-pkg_name=linux-hardening
+pkg_name=infra-linux-hardening
 pkg_origin=effortless
 pkg_version="0.1.0"
 pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
