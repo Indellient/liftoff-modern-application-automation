@@ -9,10 +9,10 @@ admin_user     = "admin"
 admin_password = "password"
 
 [vault]
-address   = "https://vault-test.azure-demos.bluepipeline.io"
+address   = ""
 role-id   = ""
 secret-id = ""
 
 [vault.secret]
-path      = "secret/grafana"
-field     = "password"
+path  = "secret/grafana"
+field = "password"
