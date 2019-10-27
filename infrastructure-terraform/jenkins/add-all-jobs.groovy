@@ -90,8 +90,8 @@ folders.each { folderObject ->
                     buildOriginPRMerge(false)
 
                     // Required for private repositories
-                    checkoutCredentialsId("github-access-token")
-                    scanCredentialsId("github-access-token")
+                    //checkoutCredentialsId("github-access-token")
+                    //scanCredentialsId("github-access-token")
                 }
             }
 
