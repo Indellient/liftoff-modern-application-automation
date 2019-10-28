@@ -56,6 +56,16 @@ variable "arm_subscription_id" {
   description = "Azure Subscription ID used to provision Jenkins Credentials"
 }
 
+variable "github_user" {
+  type        = string
+  description = "Github Username/email used to provision Jenkins Credentials"
+}
+
+variable "github_password" {
+  type        = string
+  description = "Github Password/Token used to provision Jenkins Credentials"
+}
+
 variable "vault_token" {
   type        = string
   description = "Vault Token used to provision Jenkins Credentials"

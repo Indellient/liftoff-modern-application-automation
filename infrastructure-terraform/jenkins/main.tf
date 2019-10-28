@@ -159,6 +159,8 @@ EOF
         arm-client-secret   = var.arm_client_secret
         arm-tenant-id       = var.arm_tenant_id
         arm-subscription-id = var.arm_subscription_id
+        github-user         = var.github_user
+        github-password     = var.github_password
         vault-token         = var.vault_token
       })
 
