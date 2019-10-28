@@ -31,6 +31,11 @@ def folders = [
                 name:        "Build Grafana with Vault Integration",
                 description: "Build Grafana Habitat Package with Vault Integration",
                 scriptPath:  "habitat-package-pipeline/Jenkinsfile"
+            ],[
+                id:          "example-3-deploy",
+                name:        "Deploy Grafana with Vault Integration",
+                description: "Deploy Grafana on Azure using Habitat and Vault",
+                scriptPath:  "terraform-pipeline/Jenkinsfile"
             ]
         ]
     ],[
