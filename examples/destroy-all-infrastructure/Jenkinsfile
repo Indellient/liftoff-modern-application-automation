@@ -17,7 +17,6 @@ pipeline {
             }
         }
         stage('Destroy Terraform') {
-            failFast true
             parallel {
                 stage('example-1') {
                     stages {
