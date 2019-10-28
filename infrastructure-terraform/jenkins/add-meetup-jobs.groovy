@@ -1,12 +1,12 @@
 folder("meetup") {
-    displayName("Meetup Talk Jobs")
-    description("Jobs used for Meetup Example")
+    displayName("Meetup Examples")
+    description("Jobs used for Meetup Talk")
 }
 
 def folders = [
     [
         id:          'example-2-application-automation',
-        name:        'Example 2: Application Automation',
+        name:        'Example 1: Application Automation',
         description: 'Folder containing Application Automation Pipelines',
         jobs: [
             [
@@ -23,7 +23,7 @@ def folders = [
         ]
     ],[
         id:          'example-3-secrets-management',
-        name:        'Example 3: Secrets Management',
+        name:        'Example 2: Pull-Based Updating',
         description: 'Folder containing Secrets Management Pipelines',
         jobs: [
             [
@@ -35,7 +35,7 @@ def folders = [
         ]
     ],[
         id:          'example-4-compliance',
-        name:        'Example 4: Compliance',
+        name:        'Example 3: Compliance',
         description: 'Folder containing Compliance Related Pipelines',
         jobs: [
             [
@@ -61,7 +61,7 @@ def folders = [
 ]
 
 folders.each { folderObject ->
-    folder(folderObject.id) {
+    folder("meetup/${folderObject.id}") {
         displayName(folderObject.name)
         description(folderObject.description)
     }
