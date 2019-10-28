@@ -101,9 +101,9 @@ folders.each { folderObject ->
                     buildOriginPRHead(false)
                     buildOriginPRMerge(false)
 
-                    // Required for private repositories
-                    //checkoutCredentialsId("github-access-token")
-                    //scanCredentialsId("github-access-token")
+                    // Required for private repositories OR to not be rate-limited
+                    checkoutCredentialsId("github-access-token")
+                    scanCredentialsId("github-access-token")
                 }
             }
 
