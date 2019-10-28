@@ -1,4 +1,5 @@
 [automate]
 enable     = true
-server_url = "<automate-url>"
+server_url = "<automate-url>/data-collector/v0/"
+# e.g. server_url = "https://automate.test.io/data-collector/v0/"
 token      = "<token>"

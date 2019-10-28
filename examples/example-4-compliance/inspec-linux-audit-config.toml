@@ -1,0 +1,4 @@
+[automate]
+enable     = true
+server_url = "https://automate.azure-demos.bluepipeline.io"
+token      = ""

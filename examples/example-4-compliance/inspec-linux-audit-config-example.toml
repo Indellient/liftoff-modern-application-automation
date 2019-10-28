@@ -1,4 +1,5 @@
 [automate]
 enable     = true
 server_url = "<automate-url>"
+# e.g. server_url = "https://automate.test.io"
 token      = "<token>"
