@@ -51,17 +51,29 @@ def folders = [
             ]
         ]
     ],[
-        id:          'example-4-compliance',
-        name:        'Example 4: Compliance',
-        description: 'Folder containing Compliance Related Pipelines',
-        jobs: [
-            [
-                id:          "example-4-build",
-                name:        "Build Base OS Applications with Hardening",
-                description: "Build Base OS Applications with Hardening",
-                scriptPath:  "habitat-package-pipeline/Jenkinsfile"
+            id:          'example-4-compliance',
+            name:        'Example 4: Compliance',
+            description: 'Folder containing Compliance Related Pipelines',
+            jobs: [
+                    [
+                            id:          "example-4-build",
+                            name:        "Build Base OS Applications with Hardening",
+                            description: "Build Base OS Applications with Hardening",
+                            scriptPath:  "habitat-package-pipeline/Jenkinsfile"
+                    ]
             ]
-        ]
+    ],[
+            id:          'destroy-all-infrastructure',
+            name:        'Destroy Infrastructure Jobs',
+            description: 'Jobs to destroy infrastructure provisioned by the Example Jobs',
+            jobs: [
+                    [
+                            id:          "destroy-infrastructure",
+                            name:        "Destroy All Example Infrastructure",
+                            description: "Destroy All Example Infrastructure",
+                            scriptPath:  "Jenkinsfile"
+                    ]
+            ]
     ]
 ]
 
