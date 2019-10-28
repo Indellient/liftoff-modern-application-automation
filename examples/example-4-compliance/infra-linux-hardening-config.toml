@@ -1,4 +1,0 @@
-[automate]
-enable     = true
-server_url = "https://automate-test.azure-demos.bluepipeline.io/data-collector/v0/"
-token      = ""
