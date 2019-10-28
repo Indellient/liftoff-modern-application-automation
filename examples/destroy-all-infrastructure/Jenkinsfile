@@ -15,42 +15,83 @@ pipeline {
                 sh "sudo hab pkg install -b liftoff-modern-application-delivery/terraform"
             }
         }
-        stage('Terraform Initialization') {
-            steps {
-                dir("examples/example-1-server-provisioning/terraform-pipeline") {
-                    sh "terraform init"
+        stage('Destroy Terraform') {
+            failFast true
+            parallel {
+                stage('example-1') {
+                    stages {
+                        stage('Terraform Initialization') {
+                            steps {
+                                dir("examples/example-1-server-provisioning/terraform-pipeline") {
+                                    sh "terraform init"
+                                }
+                            }
+                        }
+                        stage('Terraform Validation') {
+                            steps {
+                                dir("examples/example-1-server-provisioning/terraform-pipeline") {
+                                    sh "terraform validate"
+                                }
+                            }
+                        }
+                        stage('Terraform Apply') {
+                            steps {
+                                dir("examples/example-1-server-provisioning/terraform-pipeline") {
+                                    sh "terraform destroy -auto-approve"
+                                }
+                            }
+                        }
+                    }
                 }
-                dir("examples/example-2-application-automation/terraform-pipeline") {
-                    sh "terraform init"
+                stage('example-2') {
+                    stages {
+                        stage('Terraform Initialization') {
+                            steps {
+                                dir("examples/example-2-application-automation/terraform-pipeline") {
+                                    sh "terraform init"
+                                }
+                            }
+                        }
+                        stage('Terraform Validation') {
+                            steps {
+                                dir("examples/example-2-application-automation/terraform-pipeline") {
+                                    sh "terraform validate"
+                                }
+                            }
+                        }
+                        stage('Terraform Apply') {
+                            steps {
+                                dir("examples/example-2-application-automation/terraform-pipeline") {
+                                    sh "terraform destroy -auto-approve"
+                                }
+                            }
+                        }
+                    }
                 }
-                dir("examples/example-3-secrets-management/terraform-pipeline") {
-                    sh "terraform init"
-                }
-            }
-        }
-        stage('Terraform Validation') {
-            steps {
-                dir("examples/example-1-server-provisioning/terraform-pipeline") {
-                    sh "terraform validate"
-                }
-                dir("examples/example-2-application-automation/terraform-pipeline") {
-                    sh "terraform validate"
-                }
-                dir("examples/example-3-secrets-management/terraform-pipeline") {
-                    sh "terraform validate"
-                }
-            }
-        }
-        stage('Terraform Destroy') {
-            steps {
-                dir("examples/example-1-server-provisioning/terraform-pipeline") {
-                    sh "terraform destroy -auto-approve"
-                }
-                dir("examples/example-2-application-automation/terraform-pipeline") {
-                    sh "terraform destroy -auto-approve"
-                }
-                dir("examples/example-3-secrets-management/terraform-pipeline") {
-                    sh "terraform destroy -auto-approve"
+                stage('example-3') {
+                    stages {
+                        stage('Terraform Initialization') {
+                            steps {
+                                dir("examples/example-3-secrets-management/terraform-pipeline") {
+                                    sh "terraform init"
+                                }
+                            }
+                        }
+                        stage('Terraform Validation') {
+                            steps {
+                                dir("examples/example-3-secrets-management/terraform-pipeline") {
+                                    sh "terraform validate"
+                                }
+                            }
+                        }
+                        stage('Terraform Apply') {
+                            steps {
+                                dir("examples/example-3-secrets-management/terraform-pipeline") {
+                                    sh "terraform destroy -auto-approve"
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
