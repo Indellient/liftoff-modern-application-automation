@@ -32,7 +32,7 @@ pipeline {
         }
         stage('Terraform Apply') {
             when {
-                branch 'master'
+                branch 'meetup'
             }
             steps {
                 dir("examples/example-2-application-automation/terraform-pipeline") {

@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Upload') {
             when {
-                branch 'master'
+                branch 'meetup'
             }
             steps {
                 habitat task: 'upload',
@@ -38,7 +38,7 @@ pipeline {
         }
         stage('Promote') {
             when {
-                branch 'master'
+                branch 'meetup'
             }
             steps {
                 habitat task: 'promote',
