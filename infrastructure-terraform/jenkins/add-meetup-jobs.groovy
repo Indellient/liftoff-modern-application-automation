@@ -1,22 +1,10 @@
+folder("meetup") {
+    displayName("Meetup Talk Jobs")
+    description("Jobs used for Meetup Example")
+}
+
 def folders = [
     [
-        id:          'example-1-server-provisioning',
-        name:        'Example 1: Server Provisioning',
-        description: 'Folder containing Server Provisioning Pipelines',
-        jobs: [
-            [
-                id:          "example-1-deploy",
-                name:        "Deploy",
-                description: "Deploy Server on Azure",
-                scriptPath:  "terraform-pipeline/Jenkinsfile"
-            ],[
-                id:          "example-1-os-build",
-                name:        "Build Base OS Image",
-                description: "Build Base OS Image",
-                scriptPath:  "packer-pipeline/Jenkinsfile"
-            ]
-        ]
-    ],[
         id:          'example-2-application-automation',
         name:        'Example 2: Application Automation',
         description: 'Folder containing Application Automation Pipelines',
@@ -43,11 +31,6 @@ def folders = [
                 name:        "Build Grafana with Vault Integration",
                 description: "Build Grafana Habitat Package with Vault Integration",
                 scriptPath:  "habitat-package-pipeline/Jenkinsfile"
-            ],[
-                id:          "example-3-deploy",
-                name:        "Deploy Grafana with Vault Integration",
-                description: "Deploy Grafana on Azure using Habitat and Vault",
-                scriptPath:  "terraform-pipeline/Jenkinsfile"
             ]
         ]
     ],[
@@ -68,7 +51,7 @@ def folders = [
         description: 'Jobs to destroy infrastructure provisioned by the Example Jobs',
         jobs: [
             [
-                id:          "destroy-infrastructure",
+                    id:          "destroy-infrastructure",
                 name:        "Destroy All Example Infrastructure",
                 description: "Destroy All Example Infrastructure",
                 scriptPath:  "Jenkinsfile"
@@ -84,13 +67,13 @@ folders.each { folderObject ->
     }
 
     folderObject.jobs.each { jobObject ->
-        multibranchPipelineJob("${folderObject.id}/${jobObject.id}") {
+        multibranchPipelineJob("meetup/${folderObject.id}/${jobObject.id}") {
             displayName(jobObject.name)
             description(jobObject.description)
             branchSources {
                 github {
                     id(jobObject.id)
-                    includes("master")
+                    includes("meetup")
                     repoOwner("Indellient")
                     repository("liftoff-modern-application-automation")
 

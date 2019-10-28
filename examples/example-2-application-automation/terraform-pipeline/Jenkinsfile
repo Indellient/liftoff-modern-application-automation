@@ -3,10 +3,11 @@ pipeline {
     agent any
 
     environment {
-        ARM_CLIENT_ID       = credentials('arm-client-id')
-        ARM_CLIENT_SECRET   = credentials('arm-client-secret')
-        ARM_TENANT_ID       = credentials('arm-tenant-id')
-        ARM_SUBSCRIPTION_ID = credentials('arm-subscription-id')
+        ARM_CLIENT_ID         = credentials('arm-client-id')
+        ARM_CLIENT_SECRET     = credentials('arm-client-secret')
+        ARM_TENANT_ID         = credentials('arm-tenant-id')
+        ARM_SUBSCRIPTION_ID   = credentials('arm-subscription-id')
+        TF_VAR_habitat_origin = "chef-october-28-meetup"
     }
 
     stages {
