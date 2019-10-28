@@ -1,0 +1,4 @@
+[automate]
+enable     = true
+server_url = "<automate-url>"
+token      = "<token>"
