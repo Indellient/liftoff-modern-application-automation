@@ -121,6 +121,7 @@ sudo ./certbot-auto certonly \
     --standalone \
     --agree-tos \
     --non-interactive \
+    --staging \
     --domain ${local.fqdn} \
     --register-unsafely-without-email
 EOF
