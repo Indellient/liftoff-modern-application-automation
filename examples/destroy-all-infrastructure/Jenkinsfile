@@ -43,6 +43,31 @@ pipeline {
                         }
                     }
                 }
+                stage('Example 3') {
+                    stages {
+                        stage('Terraform Initialization') {
+                            steps {
+                                dir("examples/example-3-secrets-management/terraform-pipeline") {
+                                    sh "terraform init"
+                                }
+                            }
+                        }
+                        stage('Terraform Validation') {
+                            steps {
+                                dir("examples/example-3-secrets-management/terraform-pipeline") {
+                                    sh "terraform validate"
+                                }
+                            }
+                        }
+                        stage('Terraform Apply') {
+                            steps {
+                                dir("examples/example-3-secrets-management/terraform-pipeline") {
+                                    sh "terraform destroy -auto-approve"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
