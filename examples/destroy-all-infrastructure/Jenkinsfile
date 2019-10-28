@@ -18,32 +18,7 @@ pipeline {
         }
         stage('Destroy Terraform') {
             parallel {
-                stage('example-1') {
-                    stages {
-                        stage('Terraform Initialization') {
-                            steps {
-                                dir("examples/example-1-server-provisioning/terraform-pipeline") {
-                                    sh "terraform init"
-                                }
-                            }
-                        }
-                        stage('Terraform Validation') {
-                            steps {
-                                dir("examples/example-1-server-provisioning/terraform-pipeline") {
-                                    sh "terraform validate"
-                                }
-                            }
-                        }
-                        stage('Terraform Apply') {
-                            steps {
-                                dir("examples/example-1-server-provisioning/terraform-pipeline") {
-                                    sh "terraform destroy -auto-approve"
-                                }
-                            }
-                        }
-                    }
-                }
-                stage('example-2') {
+                stage('Example 2') {
                     stages {
                         stage('Terraform Initialization') {
                             steps {
@@ -62,31 +37,6 @@ pipeline {
                         stage('Terraform Apply') {
                             steps {
                                 dir("examples/example-2-application-automation/terraform-pipeline") {
-                                    sh "terraform destroy -auto-approve"
-                                }
-                            }
-                        }
-                    }
-                }
-                stage('example-3') {
-                    stages {
-                        stage('Terraform Initialization') {
-                            steps {
-                                dir("examples/example-3-secrets-management/terraform-pipeline") {
-                                    sh "terraform init"
-                                }
-                            }
-                        }
-                        stage('Terraform Validation') {
-                            steps {
-                                dir("examples/example-3-secrets-management/terraform-pipeline") {
-                                    sh "terraform validate"
-                                }
-                            }
-                        }
-                        stage('Terraform Apply') {
-                            steps {
-                                dir("examples/example-3-secrets-management/terraform-pipeline") {
                                     sh "terraform destroy -auto-approve"
                                 }
                             }
