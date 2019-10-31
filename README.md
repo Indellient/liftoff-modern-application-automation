@@ -12,7 +12,7 @@ Note that the examples as well as the code used to provision the necessary infra
 
 # Preparation
 
-You can make use of existing Automate, Jenkins, and Vault instances, for the sake of these examples. Skip forward to "\<tool\> Setup", otherwise, follow the infrastructure guide below.
+You can choose to make use of existing Automate, Jenkins, and Vault infrastructure when following these examples (in which case, skip forward to "\<tool\> Setup" sections). If you need to stand up this infrastructure yourself, follow the infrastructure guide below.
 
 ## 0. Credentials
 
