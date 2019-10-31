@@ -29,6 +29,33 @@ variable "admin_username" {
 }
 
 ////////////////////////////
+///// Habitat
+
+variable "consul_habitat_package" {
+  type        = string
+  description = "The Habitat package to load"
+  default     = "consul"
+}
+
+variable "consul_habitat_origin" {
+  type        = string
+  description = "The name of the origin from which to load the package given in consul_habitat_package"
+  default     = "liftoff-modern-application-delivery"
+}
+
+variable "vault_habitat_package" {
+  type        = string
+  description = "The Habitat package to load"
+  default     = "vault"
+}
+
+variable "vault_habitat_origin" {
+  type        = string
+  description = "The name of the origin from which to load the package given in vault_habitat_package"
+  default     = "liftoff-modern-application-delivery"
+}
+
+////////////////////////////
 ///// Tags
 
 variable "application_name" {

@@ -29,6 +29,21 @@ variable "admin_username" {
 }
 
 ////////////////////////////
+///// Habitat
+
+variable "habitat_package" {
+  type        = string
+  description = "The Habitat package to load"
+  default     = "jenkins"
+}
+
+variable "habitat_origin" {
+  type        = string
+  description = "The name of the origin from which to load the package given in habitat_package"
+  default     = "liftoff-modern-application-delivery"
+}
+
+////////////////////////////
 ///// Jenkins Credentials
 
 variable "habitat_auth_token" {

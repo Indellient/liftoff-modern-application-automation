@@ -149,7 +149,7 @@ EOF
     peers          = [data.terraform_remote_state.bastion.outputs.fqdn]
 
     service {
-      name      = "liftoff-modern-application-delivery/jenkins"
+      name      = format("%s/%s", var.habitat_origin, var.habitat_package)
       user_toml = templatefile(format("%s/templates/jenkins-user.toml.tpl", path.module), {
         fqdn                = local.fqdn
         admin-password      = random_password.admin_password.result

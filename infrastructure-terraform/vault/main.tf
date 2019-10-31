@@ -127,7 +127,7 @@ EOF
     peers          = [data.terraform_remote_state.bastion.outputs.fqdn]
 
     service {
-      name = "liftoff-modern-application-delivery/consul"
+      name = format("%s/%s", var.consul_habitat_origin, var.consul_habitat_package)
     }
   }
 
@@ -155,7 +155,7 @@ resource "null_resource" "null_resource" {
     accept_license = true
 
     service {
-      name      = "liftoff-modern-application-delivery/vault"
+      name      = format("%s/%s", var.vault_habitat_origin, var.vault_habitat_package)
       user_toml = templatefile(format("%s/templates/vault-user.toml.tpl", path.module), { fqdn = local.fqdn })
 
       bind {
