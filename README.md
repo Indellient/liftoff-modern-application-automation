@@ -94,7 +94,7 @@ Create a Virtual Private Network, Public Subnet, and DNS Zone by running the Ter
 
 ### 2.4 Virtual Machine Image Creation
 
-To provision the infrastructure esrvers, we must first create the Virtual Machine Image in Azure. Modify the variable file **centos-variables.json** inside the [packer](packer) folder to correspond to the resource group created in 2.2, then run packer as so:
+To provision the infrastructure servers, we must first create the Virtual Machine Image in Azure. Modify the variable file **centos-variables.json** inside the [packer](packer) folder to correspond to the resource group created in 2.2, then run packer as so:
 ```bash
 $ cd packer
 
