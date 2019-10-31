@@ -66,11 +66,6 @@ variable "github_password" {
   description = "Github Password/Token used to provision Jenkins Credentials"
 }
 
-variable "vault_token" {
-  type        = string
-  description = "Vault Token used to provision Jenkins Credentials"
-}
-
 ////////////////////////////
 ///// Tags
 

@@ -161,7 +161,6 @@ EOF
         arm-subscription-id = var.arm_subscription_id
         github-user         = var.github_user
         github-password     = var.github_password
-        vault-token         = var.vault_token
       })
 
     }
