@@ -4,7 +4,7 @@ Using `core/vault` as a baseline.
 
 ## Description
 
-Indellient wrapper of the core/vault habitat package, adds unsealing & enables configured engines on initialization
+Wrapper of the core/vault habitat package, adds unsealing & enables configured engines on initialization
 
 ## Usage
 

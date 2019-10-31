@@ -1,5 +1,5 @@
 pkg_name=infra-linux-hardening
-pkg_origin=effortless
+pkg_origin=liftoff-modern-application-delivery
 pkg_version="0.1.0"
 pkg_maintainer="The Habitat Maintainers <humans@habitat.sh>"
 pkg_license=("Apache-2.0")

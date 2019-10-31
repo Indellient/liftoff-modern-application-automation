@@ -4,7 +4,7 @@ Using `core/consul` as a baseline.
 
 ## Description
 
-Indellient wrapper of the core/consul habitat package.
+Wrapper of the core/consul habitat package.
 
 ## Usage
 

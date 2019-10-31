@@ -11,7 +11,7 @@ This particular variant comes with Vault integration, and in the presence of the
 
 The package can be loaded using `hab svc load` and will come up in a blank state, ready for DataSources and Dashboards to be added by the user.
 
-## Vault Usage
+## Vault Integration
 ### Vault Setup
 To setup Vault integration, we must first setup [AppRole Authentication](https://www.vaultproject.io/docs/auth/approle.html) on Vault:
 
@@ -41,7 +41,7 @@ To setup Vault integration, we must first setup [AppRole Authentication](https:/
   ```
 We can now make use of Vault from within Grafana. This can be done by providing a Role ID and Secret ID to the service, think of this as a username/password pair that is used to authenticate with Vault returning a token. This token, working similar to a Session ID or Cookie can now be used to retrieve secrets, though only where the policy allows. In our example above, we attached the `grafana` policy to the `grafana` role we created.
 
-### Application Vault Configuration
+### Vault Usage
 We can retrieve a Secret ID and Role ID like so:
 ```bash
 $ vault read auth/approle/role/grafana/role-id
@@ -69,6 +69,7 @@ secret-id = "68e51746-c78d-6abc-28e6-043f26b744a1"
 [vault.secret]
 path      = "secret/grafana"
 field     = "password"
+
 
 $ hab config apply grafana.default <version-number> config.toml
 » Setting new configuration version <version-number> for grafana.default
