@@ -40,8 +40,8 @@ A few Habitat packages must be built before the infrastructure can be provisione
 - **infra-linux-hardening** is used to harden the servers and is loaded as part of the [base applications](habitat-plans/infra-linux-base-applications-with-hardening/Policyfile.rb)
 - **infra-linux-base-applications** is used to load base applications, including **inspec-linux-audit**
 - **consul** is used as a backend to Vault and is used in [infrastructure-terraform/vault](infrastructure-terraform/vault)
-- **vault** used in [infrastructure-terraform/vault](infrastructure-terraform/vault)
-- **jenkins** used in used in [infrastructure-terraform/jenkins](infrastructure-terraform/jenkins)
+- **vault** is used in [infrastructure-terraform/vault](infrastructure-terraform/vault)
+- **jenkins** is used in [infrastructure-terraform/jenkins](infrastructure-terraform/jenkins)
 
 These can be built after [configuring your workstation](https://www.habitat.sh/docs/install-habitat/#configure-workstation) and running `hab pkg build <path to directory>`. Once this is complete, a **results** directory is created in the current context with a last_build.env and a .hart file. You can source the env file using `source results/last_build.env` which will set certain variables in your session, e.g.:
 ```bash
