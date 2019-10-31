@@ -288,13 +288,13 @@ The examples are run through Jenkins making use of the Pipelines defined in [exa
 
 Our first example consists of two individual pipelines - an operating system pipeline and an infrastructure pipeline. The first builds an Virtual Machine Image that is then used to provision the infrastructure.
 
-### Operating System Pipeline
+### Example 1, Part 1: Operating System Pipeline
 
 The [operating system pipeline](examples/example-1-server-provisioning/packer-pipeline) consists of a Jenkinsfile that makes use of Packer with the code found in the [packer](packer) folder. This job runs packer against the JSON image definition using the included variable file for CentOS. Note this may need to be adjusted if you are not using the `liftoff-modern-application-delivery` origin and the corresponding base OS package. This can be overriden in the job configuration by defining an environment variable `TF_VAR_variable_name`, so for `habitat_origin` this might be `TF_VAR_habitat_origin`.
 
 Due to the need for this image to exist before Jenkins is up (to deploy Jenkins), this pipeline does not need to be run but can be used as a starting point for a continuous operating system pipeline.
 
-### Infrastructure Pipeline
+### Example 1, Part 2: Infrastructure Pipeline
 
 The [infrastructure pipeline](examples/example-1-server-provisioning/terraform-pipeline) defines a Jenkinsfile that uses Terraform within the same folder. Running this pipeline should result in a server being spun up with a network interface, public IP address, DNS entry and Habitat Supervisor loaded. The Supervisor will then load the base applications package, which in turn will load the audit package. The logs for this auditing can be seen through `journalctl` on the machine (the private key is output at the end of the `terraform apply`):
 
@@ -310,13 +310,13 @@ Last Login: <date>
 
 Our second example consists of two pipelines - an application build pipeline and an infrastructure pipeline. The first builds a Chef Habitat Package that is uploaded to the Habitat Public Builder and used as an input to the infrastructure pipeline that is now making us of the Terraform Habitat Provisioner.
 
-###  Application Build Pipeline
+### Example 2, Part 1: Application Build Pipeline
 
 The [application build pipeline](examples/example-2-application-automation/habitat-package-pipeline) is a Jenkinsfile that builds and uploads a habitat package for [Grafana](habitat-plans/grafana) .
 
 Similar to 1.1, we can override the Origin this is created under by defining a global (Manage Jenkins > Configure Jenkins > Global Properties) or job-specific environment variable `HAB_ORIGIN`. This will override the origin in `pkg_name` inside the plan file.
 
-### Infrastructure Pipeline
+### Example 2, Part 2: Infrastructure Pipeline
 
 The [infrastructure pipeline](examples/example-2-application-automation/terraform-pipeline) uses Terraform within the same folder. This pipeline provisions a server that makes use of the Terraform Habitat Provisioner to load the Chef Habitat package created in the application build pipeline. A few seconds after the pipeline runs, the Grafana application should be available at the fqdn given by the terraform output.
 
@@ -326,13 +326,13 @@ Note again, we may have to override `TF_VAR_habitat_origin` to override the defa
 
 This example consists of two pipelines - an application build pipeline and an infrastructure pipeline. The first builds an updated Habitat Package, and the second provisions this package with default values for Vault integration. 
 
-## Application Build Pipeline
+### Example 3, Part 1: Application Build Pipeline
 
 This pipeline is similar to the one given by Example 1's Application Build Pipeline, but is building an [updated Grafana package](habitat-plans/grafana-with-vault-integration). Similar to the previous pipeline, you may have to override `HAB_ORIGIN`.
 
 Note a minute or so after the package is uploaded the Grafana Service running on the server from Example 1 will update, however, due to the design of the updated package this service will not be reading its secrets from Vault as the vault configurations will not be set.
 
-## Infrastructure Pipeline
+### Example 3, Part 2: Infrastructure Pipeline
 
 Once more, this is an evolution of the Infrastructure Pipeline in Example 2. This pipeline will, however, also create a Secret-Id for the pre-provisioned Vault Role for Grafana and provide this to the Habitat Service Configuration.
 
@@ -342,7 +342,7 @@ When the server is provisioned, the Grafana service should start in the next min
  
 This example consists of a single pipeline as well as the use of the Habitat Supervisor Control Gateway to apply a configuration to the existing services loaded in our examples. Note that the hardening bit of this example may not work if you're using the pre-provisioned packages, as the latest **stable** base OS package available in the original repository will have already run hardening.
 
-## Updating Configuration for Inspec Linux Audit
+### Example 4, Part 1: Updating Configuration for Inspec Linux Audit
 
 Within the [example's folder](examples/example-4-compliance) two separate toml files exist, to be used to update the configuration of the loaded base applications. To start off, log in to your Automate and create a Token (Settings > API Tokens) to be used to report Inspec Profile runs. Insert this token into [infra-linux-hardening-config-example.toml](examples/example-4-compliance/infra-linux-hardening-config-example.toml) along with an updated `server_url` that points to the Automate being used in this example.
 
@@ -355,11 +355,11 @@ $ hab config apply --remote-sup <bastion-fqdn> inspec-linux-audit.default <versi
 
 This should result in the service across all the nodes (examples and infrastructure) restarting with the new configuration, now reporting compliance data to Automate (Compliance > Reports). Note this may take a few minutes for the configuration to get propagated, the service to restart, and the compliance run to complete.
 
-### Application Build Pipeline
+### Example 4, Part 2: Application Build Pipeline
 
 Similar to the previous pipelines, this pipeline builds an updated version of a previous package. This pipeline builds a verison of [infra-linux-base-applications](habitat-plans/infra-linux-base-applications-with-hardening) that loads a hardening package (`infra-linux-hardening`) on each of the nodes. Taililng the log, we can see that this is accomplished through a Chef Infra Client run.
 
-### Updating Configuration for Infra Linux Hardening
+### Example 4, Part 3: Updating Configuration for Infra Linux Hardening
 
 Similar to the Inspec service, update the configuration for the hardening package through the bastion. Create another token in Automate and fill out `infra-linux-hardening-config-example.toml`. Once again, apply this through the bastion, ensuring to re-use the session where `HAB_CTL_SECRET` was exported:
 
