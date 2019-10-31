@@ -17,15 +17,6 @@ pkg_exports=(
 )
 pkg_exposes=(port-dns port-http port-serf_lan port-serf_wan port-server)
 
-
-do_download() {
-  return 0
-}
-
-do_unpack() {
-  return 0
-}
-
 do_build() {
   return 0
 }
