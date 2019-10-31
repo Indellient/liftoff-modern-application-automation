@@ -5,7 +5,7 @@ pipeline {
     environment {
         // You can define these variables at the Global Level, and override them here if needed
         // Configure Global Variables at Manage Jenkins -> Configure System <jenkins-url>/configure, under heading "Global Properties
-        HAB_ORIGIN     = "liftoff-modern-application-delivery"
+        // HAB_ORIGIN     = "liftoff-modern-application-delivery"
         HAB_AUTH_TOKEN = credentials('habitat-depot-token')
         HAB_CHANNEL    = 'stable'
     }
