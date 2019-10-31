@@ -69,7 +69,7 @@ $ hab pkg upload results/$pkg_artifact --channel stable
 
 ## 2. Infrastructure Provisioning
 
-To prepare the environment for the examples terraform is provided in the [**infrastructure-terraform folder**](infrastructure-terraform) to spin up required tools and infrastructure. Note that these instructions require the following to be installed:
+To prepare the environment for the examples, terraform is provided in the [**infrastructure-terraform folder**](infrastructure-terraform) and can be used to spin up required tools and infrastructure. Note that these instructions require the following to be installed:
 
 - Packer
 - Vault
