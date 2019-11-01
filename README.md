@@ -80,7 +80,7 @@ The SSH keys for the tools will be made available through the output for each of
 
 - For Automate the credentials will be available post-deploy in **/root/automate-credentials.toml**.
 - For Jenkins a randomized password is created that is included in the Terraform output (this can be run at anytime using `terraform output` after this is initially run)
-- For Vault, the token is available through the Supervisor API, see "2. Vault Setup" for more information.
+- For Vault, the token is available through the Supervisor API, see [Vault Authentication](#31-vault-authentication) for more information.
 
 Keep note of these credentials, as they will also be used to provision Jenkins with the necessary access to run the examples.
 
@@ -171,7 +171,7 @@ Now we can set up the required secrets/engines/policies.
 
 #### 3.2 Secrets and Access
 
-Note these steps can be skipped by making use of the included [setup-vault.sh script](infrastructure-terraform/vault/setup-vault.sh), which takes as an argument a password, uses environment variables `VAULT_ADDR` and `VAULT_TOKEN`, and requires the `vault` and `jq` binaries. Note this script may have to be adjusted if the packages or example files are modified (i.e. to read the secret at a different path), and will output a Token to be put into Jenkins (see 3.1 for more information) as a credential.
+Note these steps can be skipped by making use of the included [setup-vault.sh script](infrastructure-terraform/vault/setup-vault.sh), which takes as an argument a password, uses environment variables `VAULT_ADDR` and `VAULT_TOKEN`, and requires the `vault` and `jq` binaries. Note this script may have to be adjusted if the packages or example files are modified (i.e. to read the secret at a different path), and will output a Token to be put into Jenkins (see [Vault Authentication](#31-vault-authentication) for more information) as a credential.
 
 To do this manually, run the following commands.
 
@@ -257,7 +257,7 @@ Note, keep track of this token as this will be used to provision Jenkins in the 
 The included Jenkinsfiles rely on the Credentials plugin for Terraform, Vault and Habitat Builder authentication. See Sectoin 0 for how to create these, then insert these into Jenkins (Credentials > System. Select "Global Credentials" domain > Add Credentials):
 - Habitat Personal Access Token (**habitat-depot-token**) of type secret-text. *Note this will have been created if you made use of the included terraform*
 - Azure Credentials (**arm-client-id**, **arm-client-secret**, **arm-tenant-id**, **arm-subscription-id**), each of type secret text. See section 0 for more information. *this will have been created if you made use of the included terraform*
-- Vault Token (**vault-token**) This value is used to read/write data from Vault, and is used by the Vault Terraform Provider when run through Jenkins. See the [Vault Documentation](https://www.vaultproject.io/docs/concepts/tokens.html) for more details on Tokens, and see section 3.1 for creation of this token.
+- Vault Token (**vault-token**) This value is used to read/write data from Vault, and is used by the Vault Terraform Provider when run through Jenkins. See the [Vault Documentation](https://www.vaultproject.io/docs/concepts/tokens.html) for more details on Tokens, and see [Vault Authentication](#31-vault-authentication) for creation of this token.
 
 #### 4.2 Environment Variables 
 
