@@ -282,7 +282,7 @@ Log in. If using the included terraform, this requires you SSH to the machine wi
 
 # Examples
 
-The examples are run through Jenkins making use of the Pipelines defined in [examples](examples). 
+The examples below are all executed through use of Jenkins Pipelines. The pipeline code can be found in [examples](examples). 
 
 ## Example 1: Infrastructure Pipeline
 
@@ -292,7 +292,7 @@ Our first example consists of two individual pipelines - an operating system pip
 
 The [operating system pipeline](examples/example-1-server-provisioning/packer-pipeline) consists of a Jenkinsfile that makes use of Packer with the code found in the [packer](packer) folder. This job runs packer against the JSON image definition using the included variable file for CentOS. Note this may need to be adjusted if you are not using the `liftoff-modern-application-delivery` origin and the corresponding base OS package. This can be overriden in the job configuration by defining an environment variable `TF_VAR_variable_name`, so for `habitat_origin` this might be `TF_VAR_habitat_origin`.
 
-Due to the need for this image to exist before Jenkins is up (to deploy Jenkins), this pipeline does not need to be run but can be used as a starting point for a continuous operating system pipeline.
+Due to the need for this image to exist before Jenkins is up (to deploy Jenkins), an image was already created in section 2.4 (Virtual Machine Image Creation). This pipeline does not *need* to be run to proceed with examples, but can be used as a reference for what a continuous operating system pipeline that leverages Packer might look like.
 
 ### Example 1, Part 2: Infrastructure Pipeline
 
