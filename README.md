@@ -308,7 +308,7 @@ Last Login: <date>
   
 ## Example 2: Application Automation
 
-Our second example consists of two pipelines - an application build pipeline and an infrastructure pipeline. The first builds a Chef Habitat Package that is uploaded to the Habitat Public Builder and used as an input to the infrastructure pipeline that is now making us of the Terraform Habitat Provisioner.
+Our second example consists of two pipelines - an application build pipeline and an infrastructure pipeline. The first builds a Chef Habitat Package that is uploaded to the Habitat Public Builder and used as an input to the infrastructure pipeline that is now making use of the Terraform Habitat Provisioner.
 
 ### Example 2, Part 1: Application Build Pipeline
 
