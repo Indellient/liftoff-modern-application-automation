@@ -34,35 +34,58 @@ This is used to authenticate with the Habitat Public Builder. Create this using 
 
 ## 1. Habitat Packages
 
-A few Habitat packages must be built before the infrastructure can be provisioned, or pre-built packages under the [liftoff-modern-application-delivery](https://bldr.habitat.sh/#/pkgs/liftoff-modern-application-delivery) can be used. If you wish to build the packages under your own origin, the following are required:
+The plans for all the Habitat packages used in both the examples and infrastructure are included in this repository. For the majority of these, use of the public [liftoff-modern-application-delivery](https://bldr.habitat.sh/#/pkgs/liftoff-modern-application-delivery) origin packages is sufficient and recommended, though you may optionally build and use your origin-specific variants (**Note:** if using your own origin variants, ensure to [provide a value](https://www.terraform.io/docs/configuration/variables.html#assigning-values-to-root-module-variables) for `habitat_origin` to override the default demo origin). The only package required to be built before running through the examples is **infra-linux-base-applications**, which is used to load base applications, and of which a newer version must be built during [Example Four](#example-4:-compliance) (i.e. one must be a member of the origin it is built under).
 
-- **inspec-linux-audit** is used to audit the servers and is loaded as part of the [base applications](habitat-plans/infra-linux-base-applications/Policyfile.rb)
-- **infra-linux-hardening** is used to harden the servers and is loaded as part of the [base applications](habitat-plans/infra-linux-base-applications-with-hardening/Policyfile.rb)
-- **infra-linux-base-applications** is used to load base applications, including **inspec-linux-audit**
-- **consul** is used as a backend to Vault and is used in [infrastructure-terraform/vault](infrastructure-terraform/vault)
-- **vault** is used in [infrastructure-terraform/vault](infrastructure-terraform/vault)
-- **jenkins** is used in [infrastructure-terraform/jenkins](infrastructure-terraform/jenkins)
-
-These can be built after [configuring your workstation](https://www.habitat.sh/docs/install-habitat/#configure-workstation) and running `hab pkg build <path to directory>`. Once this is complete, a **results** directory is created in the current context with a last_build.env and a .hart file. You can source the env file using `source results/last_build.env` which will set certain variables in your session, e.g.:
+Build this (and optionally any other packages) after [configuring your workstation](https://www.habitat.sh/docs/install-habitat/#configure-workstation) and running `hab pkg build <path to directory>`:
+ 
 ```bash
-$ cat results/last_build.env
-pkg_origin=liftoff-modern-application-delivery
-pkg_name=jenkins
-pkg_version=2.190.1
-pkg_release=20191031141010
-pkg_target=x86_64-linux
-pkg_ident=liftoff-modern-application-delivery/jenkins/2.190.1/20191031141010
-pkg_artifact=liftoff-modern-application-delivery-jenkins-2.190.1-20191031141010-x86_64-linux.hart
-pkg_sha256sum=6f4e038651a19b98a3bc2e598d80353557c7a2cc37fbbe3fcfbfb6e5ece69bdf
-pkg_blake2bsum=e0b4765026e136fa052ed9577a1e8be5cf764af301d0278201a49d88dab5d38c
+$ hab pkg build habitat-plans/infra-linux-base-applications
+   hab-studio: Importing '<origin>' secret origin key
+» Importing origin key from standard input
+★ Imported secret origin key <origin>-<key-generation-timestamp>.
+...
+   infra-linux-base-applications:
+   infra-linux-base-applications: Source Path: /src/habitat-plans/infra-linux-base-applications
+   infra-linux-base-applications: Installed Path: /hab/pkgs/<origin>/infra-linux-base-applications/0.1.0/<release>
+   infra-linux-base-applications: Artifact: /src/results/<origin>-infra-linux-base-applications-0.1.0-<release>-x86_64-linux.hart
+   infra-linux-base-applications: Build Report: /src/results/last_build.env
+   infra-linux-base-applications: SHA256 Checksum: <sha-checksum>
+   infra-linux-base-applications: Blake2b Checksum: <blake2b-checksum>
+   infra-linux-base-applications:
+   infra-linux-base-applications: I love it when a plan.sh comes together.
+   infra-linux-base-applications:
+   infra-linux-base-applications: Build time: 1m9s
+```
 
+Once this is complete, a **results** directory is created in the current context with the Habitat Artifact (.hart) file and a build report with variables written in shell-variable format.
+
+```bash
+$ ls results/
+last_build.env
+<origin>-infra-linux-base-applications-0.1.0-<release>-x86_64-linux.hart
+
+$ cat results/last_build.env
+pkg_origin=<origin>
+pkg_name=infra-linux-base-applications
+pkg_version=0.1.0
+pkg_release=<release>
+pkg_target=x86_64-linux
+pkg_ident=<origin>/infra-linux-base-applications/0.1.0/<release>
+pkg_artifact=<origin>-infra-linux-base-applications-0.1.0-<release>-x86_64-linux.hart
+pkg_sha256sum=<sha-checksum>
+pkg_blake2bsum=<blake2b-checksum>
+```
+
+You can the build report using `source results/last_build.env` which will set certain variables in your session, e.g.:
+
+```bash
 $ source results/last_build.env
 
 $ echo $pkg_name
-jenkins
+infra-linux-base-applications
 ```
 
-This can then be used to upload/promote the packages. Upload each of these to the **stable** channel:
+This can then be used to upload/promote the package. Upload the package to the **stable** channel:
 ```bash
 $ hab pkg upload results/$pkg_artifact --channel stable
 ```
