@@ -317,7 +317,15 @@ Our first example consists of two individual pipelines - an operating system pip
 
 The [operating system pipeline](examples/example-1-server-provisioning/packer-pipeline) consists of a Jenkinsfile that makes use of Packer with the code found in the [packer](packer) folder. This job runs packer against the JSON image definition using the included variable file for CentOS. Note this may need to be adjusted if you are not using the `liftoff-modern-application-delivery` origin and the corresponding base OS package. This can be overriden in the job configuration by defining an environment variable `TF_VAR_variable_name`, so for `habitat_origin` this might be `TF_VAR_habitat_origin`.
 
-Due to the need for this image to exist before Jenkins is up (to deploy Jenkins), an image was already created in section 2.4 (Virtual Machine Image Creation). This pipeline does not *need* to be run to proceed with examples, but can be used as a reference for what a continuous operating system pipeline that leverages Packer might look like.
+Due to the need for this image to exist before Jenkins is up (to deploy Jenkins), an image was already created in section [Virtual Machine Image Creation](#24-virtual-machine-image-creation). This pipeline does not *need* to be run to proceed with examples, but can be used as a reference for what a continuous operating system pipeline that leverages Packer might look like.
+
+**NOTE:** due to the requirement of the [image name to be unique](https://www.packer.io/docs/builders/azure.html#managed_image_name), this pipeline will fail if it is run. This was set up to be a safe example in this repository but can be leveraged to create a fully fledged pipeline by appending a timestamp to the name, i.e.:
+
+```json
+ "managed_image_name": "{{ user `tag_platform` | lower }}-habitat-base-applications-{{timestamp}}",
+```
+
+This can then be referenced in the Terraform using [`name-regex`](https://www.terraform.io/docs/providers/azurerm/d/image.html#argument-reference) instead of `name`, e.g. `centos-habitat-base-applications-*`. Note the `sort_descending` argument that can be used to determine the latest.
 
 ### Example 1, Part 2: Infrastructure Pipeline
 
