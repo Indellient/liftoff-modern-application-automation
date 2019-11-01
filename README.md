@@ -357,7 +357,7 @@ This should result in the service across all the nodes (examples and infrastruct
 
 ### Example 4, Part 2: Application Build Pipeline
 
-Similar to the previous pipelines, this pipeline builds an updated version of a previous package. This pipeline builds a verison of [infra-linux-base-applications](habitat-plans/infra-linux-base-applications-with-hardening) that loads a hardening package (`infra-linux-hardening`) on each of the nodes. Taililng the log, we can see that this is accomplished through a Chef Infra Client run.
+Similar to the previous pipelines, this pipeline builds an updated version of a previous package. This pipeline builds a verison of [infra-linux-base-applications](habitat-plans/infra-linux-base-applications-with-hardening) that loads a hardening package (`infra-linux-hardening`) on each of the nodes. Tailing the log, we can see that this is accomplished through a Chef Infra Client run.
 
 ### Example 4, Part 3: Updating Configuration for Infra Linux Hardening
 
