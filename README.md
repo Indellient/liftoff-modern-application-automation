@@ -309,6 +309,8 @@ The examples below are all executed through use of Jenkins Pipelines. The pipeli
 
 ## Example 1: Infrastructure Pipeline
 
+> _I want to define my Operating System and Infrastructure as Code_
+
 Our first example consists of two individual pipelines - an operating system pipeline and an infrastructure pipeline. The first builds an Virtual Machine Image that is then used to provision the infrastructure.
 
 ### Example 1, Part 1: Operating System Pipeline
@@ -331,6 +333,8 @@ Last Login: <date>
   
 ## Example 2: Application Automation
 
+> _I want to define my Application's Build Process and Lifecycle Behaviors as Code_
+
 Our second example consists of two pipelines - an application build pipeline and an infrastructure pipeline. The first builds a Chef Habitat Package that is uploaded to the Habitat Public Builder and used as an input to the infrastructure pipeline that is now making use of the Terraform Habitat Provisioner.
 
 ### Example 2, Part 1: Application Build Pipeline
@@ -347,6 +351,8 @@ Note again, we may have to override `TF_VAR_habitat_origin` to override the defa
 
 ## Example 3: Secrets Management
 
+> _I want to centralize storage/access of my secrets, with considerations for secret rotation and limiting scopes of credentials_
+
 This example consists of two pipelines - an application build pipeline and an infrastructure pipeline. The first builds an updated Habitat Package, and the second provisions this package with default values for Vault integration. 
 
 ### Example 3, Part 1: Application Build Pipeline
@@ -362,6 +368,8 @@ Once more, this is an evolution of the Infrastructure Pipeline in Example 2. Thi
 When the server is provisioned, the Grafana service should start in the next minute or so with a password pulled from Vault.
 
 ## Example 4: Compliance
+ 
+> _I want to continuously audit & report compliance for my deployments, and converge my infrastructure if it is not compliant_
  
 This example consists of a single pipeline as well as the use of the Habitat Supervisor Control Gateway to apply a configuration to the existing services loaded in our examples. Note that the hardening bit of this example may not work if you're using the pre-provisioned packages, as the latest **stable** base OS package available in the original repository will have already run hardening.
 
