@@ -1,8 +1,8 @@
 # The port + protocol that the Grafana UI listens on
 http_port = 8000
 protocol  = "http"
-cert_file = "" # path to cert file
-cert_key  = "" # path to key
+#cert_file = "" # path to cert file
+#cert_key  = "" # path to key
 
 # LDAP config
 ldap_enabled         = "false"
