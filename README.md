@@ -6,7 +6,7 @@ This repository contains code with various examples of the following:
 - Infrastructure Pipeline using **HashiCorp Terraform**
 - Application Pipeline using **Chef Habitat**
 - Application Automation integration with Secrets Management using **Vault Terraform**
-- Continuous Compliance, Hardening and Reporting using **Chef Inspec**, **Chef Infra** and **Chef Automate**
+- Continuous Compliance, Hardening and Reporting using **Chef InSpec**, **Chef Infra** and **Chef Automate**
 
 Note that the examples as well as the code used to provision the necessary infrastructure to run the examples are meant to be used in conjunction with a Powerpoint Presentation and recorded walk through that is made available with this resource.
 
@@ -94,7 +94,7 @@ Create a Virtual Private Network, Public Subnet, and DNS Zone by running the Ter
 
 ### 2.4 Virtual Machine Image Creation
 
-To provision the infrastructure esrvers, we must first create the Virtual Machine Image in Azure. Modify the variable file **centos-variables.json** inside the [packer](packer) folder to correspond to the resource group created in 2.2, then run packer as so:
+To provision the infrastructure servers, we must first create the Virtual Machine Image in Azure. Modify the variable file **centos-variables.json** inside the [packer](packer) folder to correspond to the resource group created in 2.2, then run packer as so:
 ```bash
 $ cd packer
 
@@ -303,7 +303,7 @@ ssh -i <path-to-saved-private-key> centos@<machine-dns>
 Last Login: <date>
 [centos@server-with-base-applications ~]$ sudo journalctl -fu hab-supervisor
 ...
-<date> <hostname> hab[PID]: inspec-linux-audit.default(0): Inspec is sleeping for x seconds
+<date> <hostname> hab[PID]: inspec-linux-audit.default(0): InSpec is sleeping for x seconds
 ```
   
 ## Example 2: Application Automation
@@ -342,9 +342,9 @@ When the server is provisioned, the Grafana service should start in the next min
  
 This example consists of a single pipeline as well as the use of the Habitat Supervisor Control Gateway to apply a configuration to the existing services loaded in our examples. Note that the hardening bit of this example may not work if you're using the pre-provisioned packages, as the latest **stable** base OS package available in the original repository will have already run hardening.
 
-### Example 4, Part 1: Updating Configuration for Inspec Linux Audit
+### Example 4, Part 1: Updating Configuration for InSpec Linux Audit
 
-Within the [example's folder](examples/example-4-compliance) two separate toml files exist, to be used to update the configuration of the loaded base applications. To start off, log in to your Automate and create a Token (Settings > API Tokens) to be used to report Inspec Profile runs. Insert this token into [infra-linux-hardening-config-example.toml](examples/example-4-compliance/infra-linux-hardening-config-example.toml) along with an updated `server_url` that points to the Automate being used in this example.
+Within the [example's folder](examples/example-4-compliance) two separate toml files exist, to be used to update the configuration of the loaded base applications. To start off, log in to your Automate and create a Token (Settings > API Tokens) to be used to report InSpec Profile runs. Insert this token into [infra-linux-hardening-config-example.toml](examples/example-4-compliance/infra-linux-hardening-config-example.toml) along with an updated `server_url` that points to the Automate being used in this example.
 
 Apply the configuration through the bastion for the infrastructure, which can be done through the Habitat Supervisor Control Gateway. Note this [Gateway requires a shared secret](https://www.habitat.sh/docs/using-habitat/#configuring-supervisors-for-remote-command-and-control) which can be retrieved by running `terraform output` against the Terraform for the [bastion](infrastructure-terraform/bastion). Export this token, then use the `--remote-sup` argument to `hab config apply` to apply this new configuration:
 
@@ -357,11 +357,11 @@ This should result in the service across all the nodes (examples and infrastruct
 
 ### Example 4, Part 2: Application Build Pipeline
 
-Similar to the previous pipelines, this pipeline builds an updated version of a previous package. This pipeline builds a verison of [infra-linux-base-applications](habitat-plans/infra-linux-base-applications-with-hardening) that loads a hardening package (`infra-linux-hardening`) on each of the nodes. Taililng the log, we can see that this is accomplished through a Chef Infra Client run.
+Similar to the previous pipelines, this pipeline builds an updated version of a previous package. This pipeline builds a verison of [infra-linux-base-applications](habitat-plans/infra-linux-base-applications-with-hardening) that loads a hardening package (`infra-linux-hardening`) on each of the nodes. Tailing the log, we can see that this is accomplished through a Chef Infra Client run.
 
 ### Example 4, Part 3: Updating Configuration for Infra Linux Hardening
 
-Similar to the Inspec service, update the configuration for the hardening package through the bastion. Create another token in Automate and fill out `infra-linux-hardening-config-example.toml`. Once again, apply this through the bastion, ensuring to re-use the session where `HAB_CTL_SECRET` was exported:
+Similar to the InSpec service, update the configuration for the hardening package through the bastion. Create another token in Automate and fill out `infra-linux-hardening-config-example.toml`. Once again, apply this through the bastion, ensuring to re-use the session where `HAB_CTL_SECRET` was exported:
 
 ```bash
 $ hab config apply --remote-sup <bastion-fqdn> infra-linux-hardening.default <version-number> <path-to-toml>
