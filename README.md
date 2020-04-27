@@ -12,7 +12,7 @@ Note that the examples as well as the code used to provision the necessary infra
 
 # Preparation
 
-You can make use of existing Automate, Jenkins, and Vault instances, for the sake of these examples. Skip forward to "\<tool\> Setup", otherwise, follow the infrastructure guide below.
+You can choose to make use of existing Automate, Jenkins, and Vault infrastructure when following these examples (in which case, skip forward to "\<tool\> Setup" sections). If you need to stand up this infrastructure yourself, follow the infrastructure guide below.
 
 ## 0. Credentials
 
@@ -40,8 +40,8 @@ A few Habitat packages must be built before the infrastructure can be provisione
 - **infra-linux-hardening** is used to harden the servers and is loaded as part of the [base applications](habitat-plans/infra-linux-base-applications-with-hardening/Policyfile.rb)
 - **infra-linux-base-applications** is used to load base applications, including **inspec-linux-audit**
 - **consul** is used as a backend to Vault and is used in [infrastructure-terraform/vault](infrastructure-terraform/vault)
-- **vault** used in [infrastructure-terraform/vault](infrastructure-terraform/vault)
-- **jenkins** used in used in [infrastructure-terraform/jenkins](infrastructure-terraform/jenkins)
+- **vault** is used in [infrastructure-terraform/vault](infrastructure-terraform/vault)
+- **jenkins** is used in [infrastructure-terraform/jenkins](infrastructure-terraform/jenkins)
 
 These can be built after [configuring your workstation](https://www.habitat.sh/docs/install-habitat/#configure-workstation) and running `hab pkg build <path to directory>`. Once this is complete, a **results** directory is created in the current context with a last_build.env and a .hart file. You can source the env file using `source results/last_build.env` which will set certain variables in your session, e.g.:
 ```bash
@@ -69,7 +69,7 @@ $ hab pkg upload results/$pkg_artifact --channel stable
 
 ## 2. Infrastructure Provisioning
 
-To prepare the environment for the examples terraform is provided in the [**infrastrucutre-terraform folder**](infrastructure-terraform) to spin up required tools and infrastructure. Note that these instructions require the following to be installed:
+To prepare the environment for the examples, terraform is provided in the [**infrastructure-terraform folder**](infrastructure-terraform) and can be used to spin up required tools and infrastructure. Note that these instructions require the following to be installed:
 
 - Packer
 - Vault
@@ -282,7 +282,7 @@ Log in. If using the included terraform, this requires you SSH to the machine wi
 
 # Examples
 
-The examples are run through Jenkins making use of the Pipelines defined in [examples](examples). 
+The examples below are all executed through use of Jenkins Pipelines. The pipeline code can be found in [examples](examples). 
 
 ## Example 1: Infrastructure Pipeline
 
@@ -292,7 +292,7 @@ Our first example consists of two individual pipelines - an operating system pip
 
 The [operating system pipeline](examples/example-1-server-provisioning/packer-pipeline) consists of a Jenkinsfile that makes use of Packer with the code found in the [packer](packer) folder. This job runs packer against the JSON image definition using the included variable file for CentOS. Note this may need to be adjusted if you are not using the `liftoff-modern-application-delivery` origin and the corresponding base OS package. This can be overriden in the job configuration by defining an environment variable `TF_VAR_variable_name`, so for `habitat_origin` this might be `TF_VAR_habitat_origin`.
 
-Due to the need for this image to exist before Jenkins is up (to deploy Jenkins), this pipeline does not need to be run but can be used as a starting point for a continuous operating system pipeline.
+Due to the need for this image to exist before Jenkins is up (to deploy Jenkins), an image was already created in section 2.4 (Virtual Machine Image Creation). This pipeline does not *need* to be run to proceed with examples, but can be used as a reference for what a continuous operating system pipeline that leverages Packer might look like.
 
 ### Example 1, Part 2: Infrastructure Pipeline
 
@@ -308,7 +308,7 @@ Last Login: <date>
   
 ## Example 2: Application Automation
 
-Our second example consists of two pipelines - an application build pipeline and an infrastructure pipeline. The first builds a Chef Habitat Package that is uploaded to the Habitat Public Builder and used as an input to the infrastructure pipeline that is now making us of the Terraform Habitat Provisioner.
+Our second example consists of two pipelines - an application build pipeline and an infrastructure pipeline. The first builds a Chef Habitat Package that is uploaded to the Habitat Public Builder and used as an input to the infrastructure pipeline that is now making use of the Terraform Habitat Provisioner.
 
 ### Example 2, Part 1: Application Build Pipeline
 
