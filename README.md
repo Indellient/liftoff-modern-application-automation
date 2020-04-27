@@ -12,7 +12,7 @@ Note that the examples as well as the code used to provision the necessary infra
 
 # Preparation
 
-You can choose to make use of existing Automate, Jenkins, and Vault infrastructure when following these examples (in which case, skip forward to "\<tool\> Setup" sections). If you need to stand up this infrastructure yourself, follow the infrastructure guide below.
+You can choose to make use of existing Automate, Jenkins, and Vault infrastructure when following these examples (in which case, skip forward to the setup sections for each tool; [Vault](#3-vault-setup), [Jenkins](#4-jenkins-setup), and [Automate](#5-automate-setup)). If you need to stand up this infrastructure yourself, follow the infrastructure guide below.
 
 ## 0. Credentials
 
@@ -34,35 +34,58 @@ This is used to authenticate with the Habitat Public Builder. Create this using 
 
 ## 1. Habitat Packages
 
-A few Habitat packages must be built before the infrastructure can be provisioned, or pre-built packages under the [liftoff-modern-application-delivery](https://bldr.habitat.sh/#/pkgs/liftoff-modern-application-delivery) can be used. If you wish to build the packages under your own origin, the following are required:
+The plans for all the Habitat packages used in both the examples and infrastructure are included in this repository. For the majority of these, use of the public [liftoff-modern-application-delivery](https://bldr.habitat.sh/#/pkgs/liftoff-modern-application-delivery) origin packages is sufficient and recommended, though you may optionally build and use your origin-specific variants (**Note:** if using your own origin variants, ensure to [provide a value](https://www.terraform.io/docs/configuration/variables.html#assigning-values-to-root-module-variables) for `habitat_origin` to override the default demo origin). The only package required to be built before running through the examples is **infra-linux-base-applications**, which is used to load base applications, and of which a newer version must be built during [Example Four](#example-4:-compliance) (i.e. one must be a member of the origin it is built under).
 
-- **inspec-linux-audit** is used to audit the servers and is loaded as part of the [base applications](habitat-plans/infra-linux-base-applications/Policyfile.rb)
-- **infra-linux-hardening** is used to harden the servers and is loaded as part of the [base applications](habitat-plans/infra-linux-base-applications-with-hardening/Policyfile.rb)
-- **infra-linux-base-applications** is used to load base applications, including **inspec-linux-audit**
-- **consul** is used as a backend to Vault and is used in [infrastructure-terraform/vault](infrastructure-terraform/vault)
-- **vault** is used in [infrastructure-terraform/vault](infrastructure-terraform/vault)
-- **jenkins** is used in [infrastructure-terraform/jenkins](infrastructure-terraform/jenkins)
-
-These can be built after [configuring your workstation](https://www.habitat.sh/docs/install-habitat/#configure-workstation) and running `hab pkg build <path to directory>`. Once this is complete, a **results** directory is created in the current context with a last_build.env and a .hart file. You can source the env file using `source results/last_build.env` which will set certain variables in your session, e.g.:
+Build this (and optionally any other packages) after [configuring your workstation](https://www.habitat.sh/docs/install-habitat/#configure-workstation) and running `hab pkg build <path to directory>`:
+ 
 ```bash
-$ cat results/last_build.env
-pkg_origin=liftoff-modern-application-delivery
-pkg_name=jenkins
-pkg_version=2.190.1
-pkg_release=20191031141010
-pkg_target=x86_64-linux
-pkg_ident=liftoff-modern-application-delivery/jenkins/2.190.1/20191031141010
-pkg_artifact=liftoff-modern-application-delivery-jenkins-2.190.1-20191031141010-x86_64-linux.hart
-pkg_sha256sum=6f4e038651a19b98a3bc2e598d80353557c7a2cc37fbbe3fcfbfb6e5ece69bdf
-pkg_blake2bsum=e0b4765026e136fa052ed9577a1e8be5cf764af301d0278201a49d88dab5d38c
+$ hab pkg build habitat-plans/infra-linux-base-applications
+   hab-studio: Importing '<origin>' secret origin key
+» Importing origin key from standard input
+★ Imported secret origin key <origin>-<key-generation-timestamp>.
+...
+   infra-linux-base-applications:
+   infra-linux-base-applications: Source Path: /src/habitat-plans/infra-linux-base-applications
+   infra-linux-base-applications: Installed Path: /hab/pkgs/<origin>/infra-linux-base-applications/0.1.0/<release>
+   infra-linux-base-applications: Artifact: /src/results/<origin>-infra-linux-base-applications-0.1.0-<release>-x86_64-linux.hart
+   infra-linux-base-applications: Build Report: /src/results/last_build.env
+   infra-linux-base-applications: SHA256 Checksum: <sha-checksum>
+   infra-linux-base-applications: Blake2b Checksum: <blake2b-checksum>
+   infra-linux-base-applications:
+   infra-linux-base-applications: I love it when a plan.sh comes together.
+   infra-linux-base-applications:
+   infra-linux-base-applications: Build time: 1m9s
+```
 
+Once this is complete, a **results** directory is created in the current context with the Habitat Artifact (.hart) file and a build report with variables written in shell-variable format.
+
+```bash
+$ ls results/
+last_build.env
+<origin>-infra-linux-base-applications-0.1.0-<release>-x86_64-linux.hart
+
+$ cat results/last_build.env
+pkg_origin=<origin>
+pkg_name=infra-linux-base-applications
+pkg_version=0.1.0
+pkg_release=<release>
+pkg_target=x86_64-linux
+pkg_ident=<origin>/infra-linux-base-applications/0.1.0/<release>
+pkg_artifact=<origin>-infra-linux-base-applications-0.1.0-<release>-x86_64-linux.hart
+pkg_sha256sum=<sha-checksum>
+pkg_blake2bsum=<blake2b-checksum>
+```
+
+You can the build report using `source results/last_build.env` which will set certain variables in your session, e.g.:
+
+```bash
 $ source results/last_build.env
 
 $ echo $pkg_name
-jenkins
+infra-linux-base-applications
 ```
 
-This can then be used to upload/promote the packages. Upload each of these to the **stable** channel:
+This can then be used to upload/promote the package. Upload the package to the **stable** channel:
 ```bash
 $ hab pkg upload results/$pkg_artifact --channel stable
 ```
@@ -80,7 +103,7 @@ The SSH keys for the tools will be made available through the output for each of
 
 - For Automate the credentials will be available post-deploy in **/root/automate-credentials.toml**.
 - For Jenkins a randomized password is created that is included in the Terraform output (this can be run at anytime using `terraform output` after this is initially run)
-- For Vault, the token is available through the Supervisor API, see "2. Vault Setup" for more information.
+- For Vault, the token is available through the Supervisor API, see [Vault Authentication](#31-vault-authentication) for more information.
 
 Keep note of these credentials, as they will also be used to provision Jenkins with the necessary access to run the examples.
 
@@ -171,7 +194,7 @@ Now we can set up the required secrets/engines/policies.
 
 #### 3.2 Secrets and Access
 
-Note these steps can be skipped by making use of the included [setup-vault.sh script](infrastructure-terraform/vault/setup-vault.sh), which takes as an argument a password, uses environment variables `VAULT_ADDR` and `VAULT_TOKEN`, and requires the `vault` and `jq` binaries. Note this script may have to be adjusted if the packages or example files are modified (i.e. to read the secret at a different path), and will output a Token to be put into Jenkins (see 3.1 for more information) as a credential.
+Note these steps can be skipped by making use of the included [setup-vault.sh script](infrastructure-terraform/vault/setup-vault.sh), which takes as an argument a password, uses environment variables `VAULT_ADDR` and `VAULT_TOKEN`, and requires the `vault` and `jq` binaries. Note this script may have to be adjusted if the packages or example files are modified (i.e. to read the secret at a different path), and will output a Token to be put into Jenkins (see [Vault Authentication](#31-vault-authentication) for more information) as a credential.
 
 To do this manually, run the following commands.
 
@@ -257,7 +280,7 @@ Note, keep track of this token as this will be used to provision Jenkins in the 
 The included Jenkinsfiles rely on the Credentials plugin for Terraform, Vault and Habitat Builder authentication. See Sectoin 0 for how to create these, then insert these into Jenkins (Credentials > System. Select "Global Credentials" domain > Add Credentials):
 - Habitat Personal Access Token (**habitat-depot-token**) of type secret-text. *Note this will have been created if you made use of the included terraform*
 - Azure Credentials (**arm-client-id**, **arm-client-secret**, **arm-tenant-id**, **arm-subscription-id**), each of type secret text. See section 0 for more information. *this will have been created if you made use of the included terraform*
-- Vault Token (**vault-token**) This value is used to read/write data from Vault, and is used by the Vault Terraform Provider when run through Jenkins. See the [Vault Documentation](https://www.vaultproject.io/docs/concepts/tokens.html) for more details on Tokens, and see section 3.1 for creation of this token.
+- Vault Token (**vault-token**) This value is used to read/write data from Vault, and is used by the Vault Terraform Provider when run through Jenkins. See the [Vault Documentation](https://www.vaultproject.io/docs/concepts/tokens.html) for more details on Tokens, and see [Vault Authentication](#31-vault-authentication) for creation of this token.
 
 #### 4.2 Environment Variables 
 
@@ -286,13 +309,23 @@ The examples below are all executed through use of Jenkins Pipelines. The pipeli
 
 ## Example 1: Infrastructure Pipeline
 
+> _I want to define my Operating System and Infrastructure as Code_
+
 Our first example consists of two individual pipelines - an operating system pipeline and an infrastructure pipeline. The first builds an Virtual Machine Image that is then used to provision the infrastructure.
 
 ### Example 1, Part 1: Operating System Pipeline
 
 The [operating system pipeline](examples/example-1-server-provisioning/packer-pipeline) consists of a Jenkinsfile that makes use of Packer with the code found in the [packer](packer) folder. This job runs packer against the JSON image definition using the included variable file for CentOS. Note this may need to be adjusted if you are not using the `liftoff-modern-application-delivery` origin and the corresponding base OS package. This can be overriden in the job configuration by defining an environment variable `TF_VAR_variable_name`, so for `habitat_origin` this might be `TF_VAR_habitat_origin`.
 
-Due to the need for this image to exist before Jenkins is up (to deploy Jenkins), an image was already created in section 2.4 (Virtual Machine Image Creation). This pipeline does not *need* to be run to proceed with examples, but can be used as a reference for what a continuous operating system pipeline that leverages Packer might look like.
+Due to the need for this image to exist before Jenkins is up (to deploy Jenkins), an image was already created in section [Virtual Machine Image Creation](#24-virtual-machine-image-creation). This pipeline does not *need* to be run to proceed with examples, but can be used as a reference for what a continuous operating system pipeline that leverages Packer might look like.
+
+**NOTE:** due to the requirement of the [image name to be unique](https://www.packer.io/docs/builders/azure.html#managed_image_name), this pipeline will fail if it is run. This was set up to be a safe example in this repository but can be leveraged to create a fully fledged pipeline by appending a timestamp to the name, i.e.:
+
+```json
+ "managed_image_name": "{{ user `tag_platform` | lower }}-habitat-base-applications-{{timestamp}}",
+```
+
+This can then be referenced in the Terraform using [`name-regex`](https://www.terraform.io/docs/providers/azurerm/d/image.html#argument-reference) instead of `name`, e.g. `centos-habitat-base-applications-*`. Note the `sort_descending` argument that can be used to determine the latest.
 
 ### Example 1, Part 2: Infrastructure Pipeline
 
@@ -307,6 +340,8 @@ Last Login: <date>
 ```
   
 ## Example 2: Application Automation
+
+> _I want to define my Application's Build Process and Lifecycle Behaviors as Code_
 
 Our second example consists of two pipelines - an application build pipeline and an infrastructure pipeline. The first builds a Chef Habitat Package that is uploaded to the Habitat Public Builder and used as an input to the infrastructure pipeline that is now making use of the Terraform Habitat Provisioner.
 
@@ -324,6 +359,8 @@ Note again, we may have to override `TF_VAR_habitat_origin` to override the defa
 
 ## Example 3: Secrets Management
 
+> _I want to centralize storage/access of my secrets, with considerations for secret rotation and limiting scopes of credentials_
+
 This example consists of two pipelines - an application build pipeline and an infrastructure pipeline. The first builds an updated Habitat Package, and the second provisions this package with default values for Vault integration. 
 
 ### Example 3, Part 1: Application Build Pipeline
@@ -339,6 +376,8 @@ Once more, this is an evolution of the Infrastructure Pipeline in Example 2. Thi
 When the server is provisioned, the Grafana service should start in the next minute or so with a password pulled from Vault.
 
 ## Example 4: Compliance
+ 
+> _I want to continuously audit & report compliance for my deployments, and converge my infrastructure if it is not compliant_
  
 This example consists of a single pipeline as well as the use of the Habitat Supervisor Control Gateway to apply a configuration to the existing services loaded in our examples. Note that the hardening bit of this example may not work if you're using the pre-provisioned packages, as the latest **stable** base OS package available in the original repository will have already run hardening.
 
